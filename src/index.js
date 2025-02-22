@@ -24,51 +24,51 @@ const addAttributes = (settings, name) => {
 				// Media Control Bar
 				displayControlBar: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displayPlayButton: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displaySeekBackwardButton: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displaySeekForwardButton: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displayMuteButton: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displayVolumeRange: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displayTimeDisplay: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displayCaptionsButton: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displayPlaybackRateButton: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displayPipButton: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displayFullscreenButton: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 				displayAirplayButton: {
 					type: 'boolean',
-					default: true,
+					default: false,
 				},
 			},
 		},
@@ -124,7 +124,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 				>
 					<PanelRow>
 						<ToggleControl
-							label={__('Display the control bar', 'wp-media-chrome')}
+							label={__('Display control bar', 'wp-media-chrome')}
 							checked={displayControlBar}
 							onChange={(value) => setAttributes({ displayControlBar: value })}
 						/>
@@ -132,7 +132,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the play button', 'wp-media-chrome')}
+								label={__('Display play button', 'wp-media-chrome')}
 								checked={displayPlayButton}
 								onChange={(value) => setAttributes({ displayPlayButton: value })}
 							/>
@@ -141,7 +141,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the seek backward button', 'wp-media-chrome')}
+								label={__('Display seek backward button', 'wp-media-chrome')}
 								checked={displaySeekBackwardButton}
 								onChange={(value) =>
 									setAttributes({ displaySeekBackwardButton: value })
@@ -152,7 +152,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the seek forward button', 'wp-media-chrome')}
+								label={__('Display seek forward button', 'wp-media-chrome')}
 								checked={displaySeekForwardButton}
 								onChange={(value) =>
 									setAttributes({ displaySeekForwardButton: value })
@@ -163,7 +163,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the mute button', 'wp-media-chrome')}
+								label={__('Display mute button', 'wp-media-chrome')}
 								checked={displayMuteButton}
 								onChange={(value) => setAttributes({ displayMuteButton: value })}
 							/>
@@ -172,7 +172,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the volume range', 'wp-media-chrome')}
+								label={__('Display volume range', 'wp-media-chrome')}
 								checked={displayVolumeRange}
 								onChange={(value) => setAttributes({ displayVolumeRange: value })}
 							/>
@@ -181,7 +181,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the time display', 'wp-media-chrome')}
+								label={__('Display time display', 'wp-media-chrome')}
 								checked={displayTimeDisplay}
 								onChange={(value) => setAttributes({ displayTimeDisplay: value })}
 							/>
@@ -190,7 +190,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the captions button', 'wp-media-chrome')}
+								label={__('Display captions button', 'wp-media-chrome')}
 								checked={displayCaptionsButton}
 								onChange={(value) =>
 									setAttributes({ displayCaptionsButton: value })
@@ -201,7 +201,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the playback rate button', 'wp-media-chrome')}
+								label={__('Display playback rate button', 'wp-media-chrome')}
 								checked={displayPlaybackRateButton}
 								onChange={(value) =>
 									setAttributes({ displayPlaybackRateButton: value })
@@ -212,7 +212,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the pip button', 'wp-media-chrome')}
+								label={__('Display pip button', 'wp-media-chrome')}
 								checked={displayPipButton}
 								onChange={(value) => setAttributes({ displayPipButton: value })}
 							/>
@@ -221,7 +221,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the fullscreen button', 'wp-media-chrome')}
+								label={__('Display fullscreen button', 'wp-media-chrome')}
 								checked={displayFullscreenButton}
 								onChange={(value) =>
 									setAttributes({ displayFullscreenButton: value })
@@ -232,7 +232,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 					{displayControlBar && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display the airplay button', 'wp-media-chrome')}
+								label={__('Display airplay button', 'wp-media-chrome')}
 								checked={displayAirplayButton}
 								onChange={(value) => setAttributes({ displayAirplayButton: value })}
 							/>

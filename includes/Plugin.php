@@ -185,29 +185,28 @@ class Plugin {
 	 */
 	protected function get_media_control_bar_markup( $attributes ) {
 
-		if ( isset( $attributes['displayControlBar'] ) && false === $attributes['displayControlBar'] ) {
+		if ( empty( $attributes['displayControlBar'] ) ) {
 			return '';
 		}
 
 		$control_bar = '<media-control-bar>';
 
 		$component_map = [
-			'playButton'         => 'media-play-button',
-			'seekBackwardButton' => 'media-seek-backward-button',
-			'seekForwardButton'  => 'media-seek-forward-button',
-			'muteButton'         => 'media-mute-button',
-			'volumeRange'        => 'media-volume-range',
-			'timeRange'          => 'media-time-range',
-			'timeDisplay'        => 'media-time-display',
-			'captionsButton'     => 'media-captions-button',
-			'playbackRateButton' => 'media-playback-rate-button',
-			'pipButton'          => 'media-pip-button',
-			'fullscreenButton'   => 'media-fullscreen-button',
-			'airplayButton'      => 'media-airplay-button',
+			'displayPlayButton'         => 'media-play-button',
+			'displaySeekBackwardButton' => 'media-seek-backward-button',
+			'displaySeekForwardButton'  => 'media-seek-forward-button',
+			'displayMuteButton'         => 'media-mute-button',
+			'displayVolumeRange'        => 'media-volume-range',
+			'displayTimeDisplay'        => 'media-time-display',
+			'displayCaptionsButton'     => 'media-captions-button',
+			'displayPlaybackRateButton' => 'media-playback-rate-button',
+			'displayPipButton'          => 'media-pip-button',
+			'displayFullscreenButton'   => 'media-fullscreen-button',
+			'displayAirplayButton'      => 'media-airplay-button',
 		];
 
 		foreach ( $component_map as $attribute => $component ) {
-			if ( ! isset( $attributes[ "display$attribute" ] ) || ! empty( $attributes[ "display$attribute" ] ) ) {
+			if ( ! empty( $attributes[ $attribute ] ) ) {
 				$control_bar .= "<$component></$component>";
 			}
 		}
