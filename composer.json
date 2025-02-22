@@ -1,0 +1,39 @@
+{
+  "name": "s3rgiosan/wp-media-chrome",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Sérgio Santos",
+      "homepage": "https://s3rgiosan.dev"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "includes/Utils.php"
+    ],
+    "psr-4": {
+      "S3S\\WP\\MediaChrome\\": "includes/"
+    }
+  },
+  "require": {
+    "php": "^7.4|^8.0",
+    "composer-plugin-api": "^2.3",
+    "yahnis-elsts/plugin-update-checker": "^5.5"
+  },
+  "require-dev": {
+    "pixelalbatross/coding-standards": "dev-main"
+  },
+  "scripts": {
+    "lint": "phpcs .",
+    "lint-fix": "phpcbf ."
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "optimize-autoloader": true
+  }
+}
