@@ -294,6 +294,14 @@ class Plugin {
 		];
 
 		/**
+		 * Filters the allowed HTML tags and attributes.
+		 *
+		 * @param  array  $allowed_tags An array of allowed HTML tags and attributes. Defaults to allowed post tags.
+		 * @return array An array of allowed HTML tags and attributes.
+		 */
+		$allowed_tags = apply_filters( 's3s_media_chrome_allowed_tags', wp_kses_allowed_html( 'post' ) );
+
+		/**
 		 * Filters the allowed components to display in the control bar.
 		 *
 		 * @param  array  $allowed_components An array of allowed components. The keys are the component tags.
@@ -337,7 +345,7 @@ class Plugin {
 						$parsed_slots .= sprintf(
 							'<span slot="%s">%s</span>',
 							esc_attr( $slot_key ),
-							esc_html( $slot_content )
+							wp_kses( $slot_content, $allowed_tags )
 						);
 					}
 				}
