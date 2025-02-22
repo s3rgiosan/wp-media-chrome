@@ -50,6 +50,10 @@ const addAttributes = (settings, name) => {
 					type: 'boolean',
 					default: false,
 				},
+				displayTimeRange: {
+					type: 'boolean',
+					default: false,
+				},
 				displayCaptionsButton: {
 					type: 'boolean',
 					default: false,
@@ -88,6 +92,7 @@ const addInspectorControls = (BlockEdit) => (props) => {
 		displayMuteButton,
 		displayVolumeRange,
 		displayTimeDisplay,
+		displayTimeRange,
 		displayCaptionsButton,
 		displayPlaybackRateButton,
 		displayPipButton,
@@ -184,6 +189,15 @@ const addInspectorControls = (BlockEdit) => (props) => {
 								label={__('Display time display', 'wp-media-chrome')}
 								checked={displayTimeDisplay}
 								onChange={(value) => setAttributes({ displayTimeDisplay: value })}
+							/>
+						</PanelRow>
+					)}
+					{displayControlBar && (
+						<PanelRow>
+							<ToggleControl
+								label={__('Display time range', 'wp-media-chrome')}
+								checked={displayTimeRange}
+								onChange={(value) => setAttributes({ displayTimeRange: value })}
 							/>
 						</PanelRow>
 					)}

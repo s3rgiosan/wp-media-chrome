@@ -198,6 +198,7 @@ class Plugin {
 			'displayMuteButton'         => 'media-mute-button',
 			'displayVolumeRange'        => 'media-volume-range',
 			'displayTimeDisplay'        => 'media-time-display',
+			'displayTimeRange'          => 'media-time-range',
 			'displayCaptionsButton'     => 'media-captions-button',
 			'displayPlaybackRateButton' => 'media-playback-rate-button',
 			'displayPipButton'          => 'media-pip-button',
