@@ -18,7 +18,7 @@ class YouTube extends AbstractProvider {
 		return sprintf(
 			'<youtube-video src="%1$s" slot="media" %2$s></youtube-video>',
 			esc_url( $url ),
-			build_attrs( $this->get_attributes() )
+			build_attrs( $this->get_attrs() )
 		);
 	}
 }

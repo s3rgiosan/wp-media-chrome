@@ -18,7 +18,7 @@ class Wistia extends AbstractProvider {
 		return sprintf(
 			'<wistia-video src="%1$s" slot="media" %2$s></wistia-video>',
 			esc_url( $url ),
-			build_attrs( $this->get_attributes() )
+			build_attrs( $this->get_attrs() )
 		);
 	}
 }

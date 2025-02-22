@@ -16,7 +16,7 @@ abstract class AbstractProvider {
 	 *
 	 * @var array
 	 */
-	public $provider_attributes = [];
+	public $provider_attrs = [];
 
 	/**
 	 * Get the provider markup.
@@ -40,14 +40,14 @@ abstract class AbstractProvider {
 	 *
 	 * @return array An array of provider attributes.
 	 */
-	public function get_attributes() {
+	public function get_attrs() {
 		/**
 		 * Filters the provider attributes.
 		 *
-		 * @param  array $attributes An array of HTML attributes.
-		 * @param  string $slug      The provider slug.
+		 * @param  array  $attributes An array of HTML attributes.
+		 * @param  string $slug       The provider slug.
 		 * @return array
 		 */
-		return apply_filters( "s3s_media_chrome_{$this->get_slug()}_attributes", $this->provider_attributes, $this->get_slug() );
+		return apply_filters( "s3s_media_chrome_{$this->get_slug()}_provider_attrs", $this->provider_attrs, $this->get_slug() );
 	}
 }

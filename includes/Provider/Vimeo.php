@@ -18,7 +18,7 @@ class Vimeo extends AbstractProvider {
 		return sprintf(
 			'<vimeo-video src="%1$s" slot="media" %2$s></vimeo-video>',
 			esc_url( $url ),
-			build_attrs( $this->get_attributes() )
+			build_attrs( $this->get_attrs() )
 		);
 	}
 }

@@ -64,9 +64,9 @@ class Plugin {
 			return $block_content;
 		}
 
-		$component_markup = $provider->get_markup( $block['attrs']['url'] );
+		$provider_markup = $provider->get_markup( $block['attrs']['url'] );
 
-		if ( empty( $component_markup ) ) {
+		if ( empty( $provider_markup ) ) {
 			return $block_content;
 		}
 
@@ -75,8 +75,8 @@ class Plugin {
 				%3$s
 				%2$s
 			</media-controller>',
-			$this->get_media_controller_attributes( $block['attrs'] ),
-			$component_markup,
+			$this->get_media_controller_attrs( $block['attrs'] ),
+			$provider_markup,
 			$this->get_media_control_bar_markup( $block['attrs'] )
 		);
 
@@ -161,37 +161,49 @@ class Plugin {
 	/**
 	 * Get the media controller attributes.
 	 *
-	 * @param  array $attributes The block attributes.
-	 * @return string
+	 * @param  array $block_attrs The block attributes.
+	 * @return string The media controller attributes as a string.
 	 */
-	protected function get_media_controller_attributes( $attributes ) {
+	protected function get_media_controller_attrs( $block_attrs ) {
 
-		$controller_attributes = [];
+		$controller_attrs = [];
 
-		if ( isset( $attributes['autohide'] ) ) {
-			$controller_attributes['autohide'] = $attributes['autohide'];
+		if ( isset( $block_attrs['className'] ) ) {
+			$controller_attrs['class'] = $block_attrs['className'];
 		}
 
-		$controller_attributes = build_attrs( $controller_attributes );
+		if ( isset( $block_attrs['autohide'] ) ) {
+			$controller_attrs['autohide'] = $block_attrs['autohide'];
+		}
 
-		return $controller_attributes;
+		/**
+		 * Filters the media controller attributes.
+		 *
+		 * @param  array  $controller_attrs An array of HTML attributes.
+		 * @param  array  $block_attrs      The block attributes.
+		 * @return array
+		 */
+		$controller_attrs = apply_filters( 's3s_media_chrome_controller_attrs', $controller_attrs, $block_attrs );
+		$controller_attrs = build_attrs( $controller_attrs );
+
+		return $controller_attrs;
 	}
 
 	/**
 	 * Get the media control bar markup.
 	 *
-	 * @param  array $attributes The block attributes.
-	 * @return string
+	 * @param  array $block_attrs The block attributes.
+	 * @return string The control bar markup.
 	 */
-	protected function get_media_control_bar_markup( $attributes ) {
+	protected function get_media_control_bar_markup( $block_attrs ) {
 
-		if ( empty( $attributes['displayControlBar'] ) ) {
+		if ( empty( $block_attrs['displayControlBar'] ) ) {
 			return '';
 		}
 
 		$control_bar = '<media-control-bar>';
 
-		$component_map = [
+		$components = [
 			'displayPlayButton'         => 'media-play-button',
 			'displaySeekBackwardButton' => 'media-seek-backward-button',
 			'displaySeekForwardButton'  => 'media-seek-forward-button',
@@ -206,8 +218,16 @@ class Plugin {
 			'displayAirplayButton'      => 'media-airplay-button',
 		];
 
-		foreach ( $component_map as $attribute => $component ) {
-			if ( ! empty( $attributes[ $attribute ] ) ) {
+		/**
+		 * Filters the allowed components to display in the control bar.
+		 *
+		 * @param  array  $allowed_components An array of allowed components.
+		 * @return array An array of allowed components.
+		 */
+		$allowed_components = apply_filters( 's3s_media_chrome_control_bar_components', array_values( $components ) );
+
+		foreach ( $components as $attr => $component ) {
+			if ( ! empty( $block_attrs[ $attr ] ) && in_array( $component, $allowed_components, true ) ) {
 				$control_bar .= "<$component></$component>";
 			}
 		}
