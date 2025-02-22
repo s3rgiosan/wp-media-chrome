@@ -166,7 +166,11 @@ class Plugin {
 	 */
 	protected function get_media_controller_attrs( $block_attrs ) {
 
-		$controller_attrs = [];
+		$controller_attrs = [
+			'muted'       => true,
+			'playsinline' => true,
+			'crossorigin' => true,
+		];
 
 		if ( isset( $block_attrs['className'] ) ) {
 			$controller_attrs['class'] = $block_attrs['className'];
@@ -204,32 +208,142 @@ class Plugin {
 		$control_bar = '<media-control-bar>';
 
 		$components = [
-			'displayPlayButton'         => 'media-play-button',
-			'displaySeekBackwardButton' => 'media-seek-backward-button',
-			'displaySeekForwardButton'  => 'media-seek-forward-button',
-			'displayMuteButton'         => 'media-mute-button',
-			'displayVolumeRange'        => 'media-volume-range',
-			'displayTimeDisplay'        => 'media-time-display',
-			'displayTimeRange'          => 'media-time-range',
-			'displayCaptionsButton'     => 'media-captions-button',
-			'displayPlaybackRateButton' => 'media-playback-rate-button',
-			'displayPipButton'          => 'media-pip-button',
-			'displayFullscreenButton'   => 'media-fullscreen-button',
-			'displayAirplayButton'      => 'media-airplay-button',
+			'media-play-button'          => [
+				'block_attr' => 'displayPlayButton',
+				'slots'      => [
+					'play'  => '',
+					'pause' => '',
+					'icon'  => '',
+				],
+			],
+			'media-seek-backward-button' => [
+				'block_attr' => 'displaySeekBackwardButton',
+				'slots'      => [
+					'icon' => '',
+				],
+			],
+			'media-seek-forward-button'  => [
+				'block_attr' => 'displaySeekForwardButton',
+				'slots'      => [
+					'icon' => '',
+				],
+			],
+			'media-mute-button'          => [
+				'block_attr' => 'displayMuteButton',
+				'slots'      => [
+					'off'    => '',
+					'low'    => '',
+					'medium' => '',
+					'high'   => '',
+					'icon'   => '',
+				],
+			],
+			'media-volume-range'         => [
+				'block_attr' => 'displayVolumeRange',
+				'slots'      => [
+					'thumb' => '',
+				],
+			],
+			'media-time-display'         => [
+				'block_attr' => 'displayTimeDisplay',
+			],
+			'media-time-range'           => [
+				'block_attr' => 'displayTimeRange',
+				'slots'      => [
+					'preview'       => '',
+					'preview-arrow' => '',
+					'current'       => '',
+					'thumb'         => '',
+				],
+			],
+			'media-captions-button'      => [
+				'block_attr' => 'displayCaptionsButton',
+				'slots'      => [
+					'on'   => '',
+					'off'  => '',
+					'icon' => '',
+				],
+			],
+			'media-playback-rate-button' => [
+				'block_attr' => 'displayPlaybackRateButton',
+			],
+			'media-pip-button'           => [
+				'block_attr' => 'displayPipButton',
+				'slots'      => [
+					'enter' => '',
+					'exit'  => '',
+					'icon'  => '',
+				],
+			],
+			'media-fullscreen-button'    => [
+				'block_attr' => 'displayFullscreenButton',
+				'slots'      => [
+					'enter' => '',
+					'exit'  => '',
+					'icon'  => '',
+				],
+			],
+			'media-airplay-button'       => [
+				'block_attr' => 'displayAirplayButton',
+				'slots'      => [
+					'enter' => '',
+					'exit'  => '',
+					'icon'  => '',
+				],
+			],
 		];
 
 		/**
 		 * Filters the allowed components to display in the control bar.
 		 *
-		 * @param  array  $allowed_components An array of allowed components.
+		 * @param  array  $allowed_components An array of allowed components. The keys are the component tags.
 		 * @return array An array of allowed components.
 		 */
-		$allowed_components = apply_filters( 's3s_media_chrome_control_bar_components', array_values( $components ) );
+		$allowed_components = apply_filters( 's3s_media_chrome_control_bar_allowed_components', array_keys( $components ) );
 
-		foreach ( $components as $attr => $component ) {
-			if ( ! empty( $block_attrs[ $attr ] ) && in_array( $component, $allowed_components, true ) ) {
-				$control_bar .= "<$component></$component>";
+		foreach ( $components as $tag => $data ) {
+
+			if ( ! in_array( $tag, $allowed_components, true ) ) {
+				continue;
 			}
+
+			if ( empty( $block_attrs[ $data['block_attr'] ] ) ) {
+				continue;
+			}
+
+			$parsed_slots = '';
+
+			if ( isset( $data['slots'] ) ) {
+
+				$filter_tag = str_replace( 'media-', '', $tag );
+				$filter_tag = str_replace( '-', '_', $filter_tag );
+
+				/**
+				 * Filters the slots for the control bar component.
+				 *
+				 * @param  array  $slots       An array of slots.
+				 * @param  array  $block_attrs The block attributes.
+				 * @return array An array of slots.
+				 */
+				$slots = apply_filters( "s3s_media_chrome_control_bar_{$filter_tag}_slots", $data['slots'], $block_attrs );
+
+				if ( ! empty( $slots ) && is_array( $slots ) ) {
+					foreach ( $slots as $slot_key => $slot_content ) {
+
+						if ( ! isset( $data['slots'][ $slot_key ] ) || empty( $slot_content ) ) {
+							continue;
+						}
+
+						$parsed_slots .= sprintf(
+							'<span slot="%s">%s</span>',
+							esc_attr( $slot_key ),
+							esc_html( $slot_content )
+						);
+					}
+				}
+			}
+
+			$control_bar .= "<$tag>$parsed_slots</$tag>";
 		}
 
 		$control_bar .= '</media-control-bar>';
