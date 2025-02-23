@@ -328,10 +328,10 @@ class Plugin {
 		/**
 		 * Filters the allowed HTML tags and attributes.
 		 *
-		 * @param  array  $allowed_tags An array of allowed HTML tags and attributes. Defaults to allowed post tags.
+		 * @param  array  $allowed_tags An array of allowed HTML tags and attributes.
 		 * @return array An array of allowed HTML tags and attributes.
 		 */
-		$allowed_tags = apply_filters( 's3s_media_chrome_allowed_tags', wp_kses_allowed_html( 'post' ) );
+		$allowed_tags = apply_filters( 's3s_media_chrome_allowed_tags', [] );
 
 		/**
 		 * Filters the allowed components to display in the control bar.
@@ -355,8 +355,7 @@ class Plugin {
 
 			if ( isset( $data['slots'] ) ) {
 
-				$filter_tag = str_replace( 'media-', '', $tag );
-				$filter_tag = str_replace( '-', '_', $filter_tag );
+				$filter_tag = str_replace( '-', '_', $tag );
 
 				/**
 				 * Filters the slots for the control bar component.

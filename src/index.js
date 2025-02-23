@@ -6,6 +6,11 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, PanelRow, ToggleControl, RangeControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
+/**
+ *  Internal dependencies
+ */
+import './style.css';
+
 const addAttributes = (settings, name) => {
 	if (name !== 'core/embed') {
 		return settings;
