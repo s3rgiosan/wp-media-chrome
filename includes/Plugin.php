@@ -70,11 +70,22 @@ class Plugin {
 			return $block_content;
 		}
 
+		$class_name = $block['attrs']['className'] ?? '';
+		if ( ! empty( $class_name ) ) {
+			$class_name = ' ' . $class_name;
+		}
+
 		$block_content = sprintf(
-			'<media-controller %1$s>
-				%3$s
-				%2$s
-			</media-controller>',
+			'<figure class="wp-block-embed is-type-video is-provider-%1$s wp-block-embed-%1$s%2$s">
+				<div class="wp-block-embed__wrapper">
+					<media-controller %3$s>
+						%4$s
+						%5$s
+					</media-controller>
+				</div>
+			</figure>',
+			$provider_slug,
+			esc_attr( $class_name ),
 			$this->get_media_controller_attrs( $block['attrs'] ),
 			$provider_markup,
 			$this->get_media_control_bar_markup( $block['attrs'] )
@@ -102,6 +113,7 @@ class Plugin {
 		$field_mappings = [
 			'editorScript' => 'editor-script',
 			'viewScript'   => 'view-script',
+			'style'        => 'style',
 		];
 
 		foreach ( $field_mappings as $field_name => $asset_handle ) {
@@ -156,6 +168,30 @@ class Plugin {
 				true
 			);
 		}
+
+		$styles = [
+			'style' => 'style-index',
+		];
+
+		foreach ( $styles as $asset_handle => $filename ) {
+
+			$asset_file = sprintf(
+				'%s/build/%s.css',
+				untrailingslashit( S3S_MEDIA_CHROME_PATH ),
+				$filename
+			);
+
+			wp_register_style(
+				"media-chrome-$asset_handle",
+				sprintf(
+					'%s/build/%s.css',
+					untrailingslashit( S3S_MEDIA_CHROME_URL ),
+					$filename
+				),
+				[],
+				filemtime( $asset_file )
+			);
+		}
 	}
 
 	/**
@@ -171,10 +207,6 @@ class Plugin {
 			'playsinline' => true,
 			'crossorigin' => true,
 		];
-
-		if ( isset( $block_attrs['className'] ) ) {
-			$controller_attrs['class'] = $block_attrs['className'];
-		}
 
 		if ( isset( $block_attrs['autohide'] ) ) {
 			$controller_attrs['autohide'] = $block_attrs['autohide'];
