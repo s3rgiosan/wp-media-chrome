@@ -1,0 +1,14 @@
+.wp-block-embed media-controller {
+	max-width: 100%;
+}
+
+.wp-embed-responsive .wp-has-aspect-ratio media-controller {
+	bottom: 0;
+	height: 100%;
+	right: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
+

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Media Chrome for Embeds
- * Description:       Custom web components for audio and video embeds powered by Media Chrome.
+ * Description:       Enhance your audio and video block embeds with custom web components from Media Chrome.
  * Plugin URI:        https://github.com/s3rgiosan/wp-media-chrome
  * Requires at least: 6.4
  * Requires PHP:      7.4
