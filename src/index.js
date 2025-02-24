@@ -85,14 +85,18 @@ const addAttributes = (settings, name) => {
 					type: 'boolean',
 					default: true,
 				},
+				// displayCaptionsButton: {
+				// 	type: 'boolean',
+				// 	default: false,
+				// },
 				displayPlaybackRateButton: {
 					type: 'boolean',
 					default: true,
 				},
-				displayPipButton: {
-					type: 'boolean',
-					default: false,
-				},
+				// displayPipButton: {
+				// 	type: 'boolean',
+				// 	default: false,
+				// },
 				displayFullscreenButton: {
 					type: 'boolean',
 					default: true,
@@ -124,8 +128,9 @@ const addInspectorControls = (BlockEdit) => (props) => {
 		displayVolumeRange,
 		displayTimeDisplay,
 		displayTimeRange,
+		// displayCaptionsButton,
 		displayPlaybackRateButton,
-		displayPipButton,
+		// displayPipButton,
 		displayFullscreenButton,
 		displayAirplayButton,
 	} = attributes;
@@ -134,8 +139,6 @@ const addInspectorControls = (BlockEdit) => (props) => {
 	if (name !== 'core/embed') {
 		return <BlockEdit {...props} />;
 	}
-
-	console.log(props);
 
 	return (
 		<>
@@ -280,6 +283,16 @@ const addInspectorControls = (BlockEdit) => (props) => {
 									__nextHasNoMarginBottom
 								/>
 							</PanelRow>
+							{/* <PanelRow>
+								<ToggleControl
+									label={__('Display captions button', 'wp-media-chrome')}
+									checked={!!displayCaptionsButton}
+									onChange={(value) =>
+										setAttributes({ displayCaptionsButton: value })
+									}
+									__nextHasNoMarginBottom
+								/>
+							</PanelRow> */}
 							<PanelRow>
 								<ToggleControl
 									label={__('Display playback rate button', 'wp-media-chrome')}
@@ -290,14 +303,14 @@ const addInspectorControls = (BlockEdit) => (props) => {
 									__nextHasNoMarginBottom
 								/>
 							</PanelRow>
-							<PanelRow>
+							{/* <PanelRow>
 								<ToggleControl
 									label={__('Display pip button', 'wp-media-chrome')}
 									checked={!!displayPipButton}
 									onChange={(value) => setAttributes({ displayPipButton: value })}
 									__nextHasNoMarginBottom
 								/>
-							</PanelRow>
+							</PanelRow> */}
 							<PanelRow>
 								<ToggleControl
 									label={__('Display fullscreen button', 'wp-media-chrome')}

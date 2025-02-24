@@ -338,6 +338,15 @@ class Plugin {
 					'thumb'         => '',
 				],
 			],
+			'media-captions-button'      => [
+				'default_value' => false,
+				'block_attr'    => 'displayCaptionsButton',
+				'slots'         => [
+					'on'   => '',
+					'off'  => '',
+					'icon' => '',
+				],
+			],
 			'media-playback-rate-button' => [
 				'default_value' => true,
 				'block_attr'    => 'displayPlaybackRateButton',
