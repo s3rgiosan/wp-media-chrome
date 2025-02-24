@@ -4,7 +4,8 @@
 
 ## Description
 
-@todo
+Media Chrome for Embeds brings the power of [Media Chrome](https://www.media-chrome.org/) to your WordPress embed blocks.
+This plugin upgrades the default audio and video embeds by integrating custom web components for improved player controls and an enhanced media experience.
 
 ## Requirements
 
@@ -35,7 +36,101 @@ composer require s3rgiosan/wp-media-chrome
 
 ## Options
 
-@todo
+### `autohide`
+
+Number of seconds after which controls auto-hide when inactive. Set to -1 to disable auto-hide.
+
+Default: `2`
+
+### `muted`
+
+Determines if media starts muted.
+
+Default: `false`
+
+### `controls`
+
+Toggles the display of media controls.
+
+Default: `true`
+
+### `playsInline`
+
+When enabled, videos play inline on mobile devices rather than opening in fullscreen.
+
+Default: `false`
+
+### `preload`
+
+Defines the content that is preloaded. Options include 'auto', 'metadata', and 'none'.
+
+Default: `'metadata'`
+
+### `poster`
+
+URL for the poster image displayed before playback starts.
+
+Default: `''`
+
+### `displayPlayButton`
+
+Whether to display the play/pause button in the control bar.
+
+Default: `true`
+
+### `displaySeekBackwardButton`
+
+Whether to display the button for seeking backward.
+
+Default: `true`
+
+### `displaySeekForwardButton`
+
+Whether to display the button for seeking forward.
+
+Default: `true`
+
+### `displayMuteButton`
+
+Whether to display the mute/unmute button.
+
+Default: `true`
+
+### `displayVolumeRange`
+
+Whether to show the volume slider.
+
+Default: `true`
+
+### `displayTimeDisplay`
+
+Whether to show the current time and duration of the media.
+
+Default: `true`
+
+### `displayTimeRange`
+
+Whether to display the timeline or progress bar.
+
+Default: `true`
+
+### `displayPlaybackRateButton`
+
+Whether to include a control for adjusting playback speed.
+
+Default: `true`
+
+### `displayFullscreenButton`
+
+Whether to display the fullscreen toggle button.
+
+Default: `true`
+
+### `displayAirplayButton`
+
+Whether to display the AirPlay button (only supported in Safari).
+
+Default: `false`
 
 ## Styling
 
