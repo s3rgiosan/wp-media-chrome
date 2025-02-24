@@ -1,4 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import 'media-chrome';
+
 document.addEventListener('DOMContentLoaded', () => {
 	(async () => {
 		if (document.querySelectorAll('media-controller youtube-video')) {
