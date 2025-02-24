@@ -85,10 +85,6 @@ const addAttributes = (settings, name) => {
 					type: 'boolean',
 					default: true,
 				},
-				displayCaptionsButton: {
-					type: 'boolean',
-					default: false,
-				},
 				displayPlaybackRateButton: {
 					type: 'boolean',
 					default: true,
@@ -128,7 +124,6 @@ const addInspectorControls = (BlockEdit) => (props) => {
 		displayVolumeRange,
 		displayTimeDisplay,
 		displayTimeRange,
-		displayCaptionsButton,
 		displayPlaybackRateButton,
 		displayPipButton,
 		displayFullscreenButton,
@@ -282,16 +277,6 @@ const addInspectorControls = (BlockEdit) => (props) => {
 									label={__('Display time range', 'wp-media-chrome')}
 									checked={!!displayTimeRange}
 									onChange={(value) => setAttributes({ displayTimeRange: value })}
-									__nextHasNoMarginBottom
-								/>
-							</PanelRow>
-							<PanelRow>
-								<ToggleControl
-									label={__('Display captions button', 'wp-media-chrome')}
-									checked={!!displayCaptionsButton}
-									onChange={(value) =>
-										setAttributes({ displayCaptionsButton: value })
-									}
 									__nextHasNoMarginBottom
 								/>
 							</PanelRow>
