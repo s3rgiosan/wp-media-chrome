@@ -203,13 +203,31 @@ class Plugin {
 	protected function get_media_controller_attrs( $block_attrs ) {
 
 		$controller_attrs = [
-			'muted'       => true,
-			'playsinline' => true,
-			'crossorigin' => true,
+			'autohide'    => 2,
+			'muted'       => false,
+			'controls'    => true,
+			'playsInline' => false,
+			'preload'     => 'metadata',
 		];
 
 		if ( isset( $block_attrs['autohide'] ) ) {
 			$controller_attrs['autohide'] = $block_attrs['autohide'];
+		}
+
+		if ( isset( $block_attrs['muted'] ) && true === $block_attrs['muted'] ) {
+			$controller_attrs['muted'] = true;
+		}
+
+		if ( isset( $block_attrs['controls'] ) && false === $block_attrs['controls'] ) {
+			$controller_attrs['controls'] = false;
+		}
+
+		if ( isset( $block_attrs['playsInline'] ) && true === $block_attrs['playsInline'] ) {
+			$controller_attrs['playsInline'] = true;
+		}
+
+		if ( isset( $block_attrs['preload'] ) ) {
+			$controller_attrs['preload'] = $block_attrs['preload'];
 		}
 
 		/**
@@ -233,7 +251,7 @@ class Plugin {
 	 */
 	protected function get_media_control_bar_markup( $block_attrs ) {
 
-		if ( empty( $block_attrs['displayControlBar'] ) ) {
+		if ( isset( $block_attrs['controls'] ) && false === $block_attrs['controls'] ) {
 			return '';
 		}
 
@@ -241,28 +259,32 @@ class Plugin {
 
 		$components = [
 			'media-play-button'          => [
-				'block_attr' => 'displayPlayButton',
-				'slots'      => [
+				'default_value' => true,
+				'block_attr'    => 'displayPlayButton',
+				'slots'         => [
 					'play'  => '',
 					'pause' => '',
 					'icon'  => '',
 				],
 			],
 			'media-seek-backward-button' => [
-				'block_attr' => 'displaySeekBackwardButton',
-				'slots'      => [
+				'default_value' => true,
+				'block_attr'    => 'displaySeekBackwardButton',
+				'slots'         => [
 					'icon' => '',
 				],
 			],
 			'media-seek-forward-button'  => [
-				'block_attr' => 'displaySeekForwardButton',
-				'slots'      => [
+				'default_value' => true,
+				'block_attr'    => 'displaySeekForwardButton',
+				'slots'         => [
 					'icon' => '',
 				],
 			],
 			'media-mute-button'          => [
-				'block_attr' => 'displayMuteButton',
-				'slots'      => [
+				'default_value' => true,
+				'block_attr'    => 'displayMuteButton',
+				'slots'         => [
 					'off'    => '',
 					'low'    => '',
 					'medium' => '',
@@ -271,17 +293,20 @@ class Plugin {
 				],
 			],
 			'media-volume-range'         => [
-				'block_attr' => 'displayVolumeRange',
-				'slots'      => [
+				'default_value' => true,
+				'block_attr'    => 'displayVolumeRange',
+				'slots'         => [
 					'thumb' => '',
 				],
 			],
 			'media-time-display'         => [
-				'block_attr' => 'displayTimeDisplay',
+				'default_value' => true,
+				'block_attr'    => 'displayTimeDisplay',
 			],
 			'media-time-range'           => [
-				'block_attr' => 'displayTimeRange',
-				'slots'      => [
+				'default_value' => true,
+				'block_attr'    => 'displayTimeRange',
+				'slots'         => [
 					'preview'       => '',
 					'preview-arrow' => '',
 					'current'       => '',
@@ -289,35 +314,40 @@ class Plugin {
 				],
 			],
 			'media-captions-button'      => [
-				'block_attr' => 'displayCaptionsButton',
-				'slots'      => [
+				'default_value' => false,
+				'block_attr'    => 'displayCaptionsButton',
+				'slots'         => [
 					'on'   => '',
 					'off'  => '',
 					'icon' => '',
 				],
 			],
 			'media-playback-rate-button' => [
-				'block_attr' => 'displayPlaybackRateButton',
+				'default_value' => true,
+				'block_attr'    => 'displayPlaybackRateButton',
 			],
 			'media-pip-button'           => [
-				'block_attr' => 'displayPipButton',
-				'slots'      => [
+				'default_value' => false,
+				'block_attr'    => 'displayPipButton',
+				'slots'         => [
 					'enter' => '',
 					'exit'  => '',
 					'icon'  => '',
 				],
 			],
 			'media-fullscreen-button'    => [
-				'block_attr' => 'displayFullscreenButton',
-				'slots'      => [
+				'default_value' => true,
+				'block_attr'    => 'displayFullscreenButton',
+				'slots'         => [
 					'enter' => '',
 					'exit'  => '',
 					'icon'  => '',
 				],
 			],
 			'media-airplay-button'       => [
-				'block_attr' => 'displayAirplayButton',
-				'slots'      => [
+				'default_value' => false,
+				'block_attr'    => 'displayAirplayButton',
+				'slots'         => [
 					'enter' => '',
 					'exit'  => '',
 					'icon'  => '',
@@ -347,7 +377,11 @@ class Plugin {
 				continue;
 			}
 
-			if ( empty( $block_attrs[ $data['block_attr'] ] ) ) {
+			if ( isset( $block_attrs[ $data['block_attr'] ] ) && false === $block_attrs[ $data['block_attr'] ] ) {
+				continue;
+			}
+
+			if ( ! isset( $block_attrs[ $data['block_attr'] ] ) && ! $data['default_value'] ) {
 				continue;
 			}
 
