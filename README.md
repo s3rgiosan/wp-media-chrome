@@ -9,13 +9,13 @@ This plugin upgrades the default audio and video embeds by integrating custom we
 
 ## Roadmap
 
-| Embed         | Status |
+| Embed | Status |
 |---------------|--------|
-| YouTube | ✅ |
-| Vimeo   | ✅ |
-| Wistia  | ✅ |
-| Video   | 🚧 |
-| Audio   | 🚧 |
+| [YouTube](https://wordpress.org/documentation/article/youtube-embed/) | ✅ |
+| [Vimeo](https://wordpress.org/documentation/article/vimeo-embed/) | ✅ |
+| [Wistia](https://github.com/s3rgiosan/wistia-embed-block) | ✅ |
+| Video | 🚧 |
+| Audio | 🚧 |
 
 ## Requirements
 
