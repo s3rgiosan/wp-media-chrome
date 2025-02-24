@@ -1,3 +1,4 @@
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
 /**
  * WordPress dependencies
  */
@@ -9,6 +10,7 @@ import {
 	ToggleControl,
 	RangeControl,
 	SelectControl,
+	__experimentalToolsPanel as ToolsPanel,
 } from '@wordpress/components';
 import { __, _x } from '@wordpress/i18n';
 import { useInstanceId } from '@wordpress/compose';
@@ -16,6 +18,7 @@ import { useInstanceId } from '@wordpress/compose';
 /**
  * Internal dependencies
  */
+import PosterImage from './poster-image';
 import './style.css';
 
 const addAttributes = (settings, name) => {
@@ -48,6 +51,10 @@ const addAttributes = (settings, name) => {
 				preload: {
 					type: 'string',
 					default: 'metadata',
+				},
+				poster: {
+					type: 'string',
+					default: '',
 				},
 				// Media Controls
 				displayPlayButton: {
@@ -111,8 +118,9 @@ const addInspectorControls = (BlockEdit) => (props) => {
 		autohide,
 		muted,
 		controls,
-		preload,
 		playsInline,
+		preload,
+		poster,
 		displayPlayButton,
 		displaySeekBackwardButton,
 		displaySeekForwardButton,
@@ -188,20 +196,6 @@ const addInspectorControls = (BlockEdit) => (props) => {
 							instanceId={instanceId}
 						/>
 					</PanelRow>
-					<PanelRow>
-						<RangeControl
-							label={__('Autohide', 'wp-media-chrome')}
-							value={autohide}
-							onChange={(value) => setAttributes({ autohide: value })}
-							min={-1}
-							max={60}
-							help={__(
-								'Autohide all controls after n seconds of inactivity, unless the media is paused. To disable autohide, set the value to -1.',
-								'wp-media-chrome',
-							)}
-							__nextHasNoMarginBottom
-						/>
-					</PanelRow>
 				</PanelBody>
 				{controls && (
 					<>
@@ -209,6 +203,20 @@ const addInspectorControls = (BlockEdit) => (props) => {
 							title={__('Media Chrome — Controls', 'wp-media-chrome')}
 							initialOpen={false}
 						>
+							<PanelRow>
+								<RangeControl
+									label={__('Autohide', 'wp-media-chrome')}
+									value={autohide}
+									onChange={(value) => setAttributes({ autohide: value })}
+									min={-1}
+									max={60}
+									help={__(
+										'Autohide all controls after n seconds of inactivity, unless the media is paused. To disable autohide, set the value to -1.',
+										'wp-media-chrome',
+									)}
+									__nextHasNoMarginBottom
+								/>
+							</PanelRow>
 							<PanelRow>
 								<ToggleControl
 									label={__('Display play button', 'wp-media-chrome')}

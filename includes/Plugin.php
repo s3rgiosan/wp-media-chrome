@@ -70,24 +70,29 @@ class Plugin {
 			return $block_content;
 		}
 
-		$class_name = $block['attrs']['className'] ?? '';
-		if ( ! empty( $class_name ) ) {
-			$class_name = ' ' . $class_name;
-		}
+		$block_wrapper_classes = [
+			'wp-block-embed',
+			'is-type-video',
+			'is-provider-' . $provider_slug,
+			'wp-block-embed-' . $provider_slug,
+			$block['attrs']['className'] ?? '',
+			'has-media-chrome',
+		];
 
 		$block_content = sprintf(
-			'<figure class="wp-block-embed is-type-video is-provider-%1$s wp-block-embed-%1$s%2$s">
+			'<figure class="%1$s">
 				<div class="wp-block-embed__wrapper">
-					<media-controller %3$s>
+					<media-controller %2$s>
+						%3$s
 						%4$s
 						%5$s
 					</media-controller>
 				</div>
 			</figure>',
-			$provider_slug,
-			esc_attr( $class_name ),
+			esc_attr( implode( ' ', $block_wrapper_classes ) ),
 			$this->get_media_controller_attrs( $block['attrs'] ),
 			$provider_markup,
+			$this->get_media_poster_image_markup( $block['attrs'] ),
 			$this->get_media_control_bar_markup( $block['attrs'] )
 		);
 
@@ -241,6 +246,26 @@ class Plugin {
 		$controller_attrs = build_attrs( $controller_attrs );
 
 		return $controller_attrs;
+	}
+
+	/**
+	 * Get the media poster image markup.
+	 *
+	 * @param  array $block_attrs The block attributes.
+	 * @return string The poster image markup.
+	 */
+	protected function get_media_poster_image_markup( $block_attrs ) {
+
+		if ( empty( $block_attrs['poster'] ) ) {
+			return '';
+		}
+
+		$poster_image = sprintf(
+			'<media-poster-image slot="poster" src="%s"></media-poster-image>',
+			esc_url( $block_attrs['poster'] )
+		);
+
+		return $poster_image;
 	}
 
 	/**

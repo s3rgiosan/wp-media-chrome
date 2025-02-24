@@ -12,3 +12,10 @@
 	width: 100%;
 }
 
+@supports (position: sticky) {
+	.wp-block-embed media-poster-image {
+		-o-object-fit:cover;
+		   object-fit:cover
+	}
+}
+
