@@ -7,6 +7,16 @@
 Media Chrome for Embeds brings the power of [Media Chrome](https://www.media-chrome.org/) to your WordPress embed blocks.
 This plugin upgrades the default audio and video embeds by integrating custom web components for improved player controls and an enhanced media experience.
 
+## Roadmap
+
+| Embed         | Status |
+|---------------|--------|
+| YouTube | ✅ |
+| Vimeo   | ✅ |
+| Wistia  | ✅ |
+| Video   | 🚧 |
+| Audio   | 🚧 |
+
 ## Requirements
 
 * PHP 7.4+
