@@ -46,7 +46,7 @@ composer require s3rgiosan/wp-media-chrome
 
 ## Hooks
 
-### mediaChrome.enableControls
+### mediaChrome.controls.ui.enable
 ```js
 /**
  * Filters whether to enable the media controls UI.
