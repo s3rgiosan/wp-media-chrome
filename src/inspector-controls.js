@@ -11,6 +11,7 @@ import {
 } from '@wordpress/components';
 import { __, _x } from '@wordpress/i18n';
 import { useInstanceId } from '@wordpress/compose';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
@@ -19,6 +20,8 @@ import PosterImage from './poster-image';
 
 const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 	const {
+		type,
+		providerNameSlug,
 		autohide,
 		muted,
 		controls,
@@ -41,6 +44,21 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 
 	const instanceId = useInstanceId(MediaChromeInspectorControls);
 
+	/**
+	 * Filters whether to enable the media controls UI.
+	 *
+	 * @param {boolean} enableControlsUI Whether to enable the media controls UI. Default is `true`.
+	 * @param {string}  type             The media type.
+	 * @param {string}  providerNameSlug The provider name slug.
+	 * @return {boolean} Whether to enable the media controls UI.
+	 */
+	const enableControlsUI = applyFilters(
+		'mediaChrome.controls.ui.enable',
+		true,
+		type,
+		providerNameSlug,
+	);
+
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Media Chrome', 'wp-media-chrome')}>
@@ -52,14 +70,16 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						__nextHasNoMarginBottom
 					/>
 				</PanelRow>
-				<PanelRow>
-					<ToggleControl
-						label={__('Playback controls', 'wp-media-chrome')}
-						checked={controls}
-						onChange={(value) => setAttributes({ controls: value })}
-						__nextHasNoMarginBottom
-					/>
-				</PanelRow>
+				{enableControlsUI && (
+					<PanelRow>
+						<ToggleControl
+							label={__('Playback controls', 'wp-media-chrome')}
+							checked={controls}
+							onChange={(value) => setAttributes({ controls: value })}
+							__nextHasNoMarginBottom
+						/>
+					</PanelRow>
+				)}
 				<PanelRow>
 					<ToggleControl
 						label={__('Play inline', 'wp-media-chrome')}
@@ -94,7 +114,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 					/>
 				</PanelRow>
 			</PanelBody>
-			{controls && (
+			{enableControlsUI && controls && (
 				<>
 					<PanelBody
 						title={__('Media Chrome — Controls', 'wp-media-chrome')}

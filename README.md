@@ -1,10 +1,10 @@
-# Media Chrome for Embeds
+# Media Chrome for Embed Blocks
 
 > Enhance your audio and video block embeds with custom web components from Media Chrome.
 
 ## Description
 
-Media Chrome for Embeds brings the power of [Media Chrome](https://www.media-chrome.org/) to your WordPress embed blocks.
+Media Chrome for Embed Blocks brings the power of [Media Chrome](https://www.media-chrome.org/) to your WordPress embed blocks.
 This plugin upgrades the default audio and video embeds by integrating custom web components for improved player controls and an enhanced media experience.
 
 ## Roadmap
@@ -44,11 +44,37 @@ composer require s3rgiosan/wp-media-chrome
 2. Run `composer install` to install the plugin.
 3. Activate the plugin from your WordPress admin area or using WP-CLI.
 
+## Hooks
+
+### mediaChrome.enableControls
+```js
+/**
+ * Filters whether to enable the media controls UI.
+ *
+ * @param {boolean} enableControlsUI Whether to enable the media controls UI. Default is `true`.
+ * @param {string}  type             The media type.
+ * @param {string}  providerNameSlug The provider name slug.
+ * @return {boolean} Whether to enable the media controls UI.
+ */
+applyFilters( 'mediaChrome.controls.ui.enable', true, type, providerNameSlug );
+
+// Example:
+import { addFilter } from '@wordpress/hooks';
+
+addFilter(
+	'mediaChrome.controls.ui.enable',
+	'my-plugin/disableMediaChromeControlsUI',
+	() => {
+		return false;
+	}
+);
+```
+
 ## Options
 
 ### `autohide`
 
-Number of seconds after which controls auto-hide when inactive. Set to -1 to disable auto-hide.
+Number of seconds after which controls auto-hide when inactive. Set to `-1` to disable auto-hide.
 
 Default: `2`
 
@@ -72,7 +98,7 @@ Default: `false`
 
 ### `preload`
 
-Defines the content that is preloaded. Options include 'auto', 'metadata', and 'none'.
+Defines the content that is preloaded. Options include `'auto'`, `'metadata'`, and `'none'`.
 
 Default: `'metadata'`
 
