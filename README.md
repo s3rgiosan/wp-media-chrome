@@ -44,30 +44,81 @@ composer require s3rgiosan/wp-media-chrome
 2. Run `composer install` to install the plugin.
 3. Activate the plugin from your WordPress admin area or using WP-CLI.
 
-## Hooks
+## Settings
 
-### mediaChrome.controls.ui.enable
-```js
-/**
- * Filters whether to enable the media controls UI.
- *
- * @param {boolean} enableControlsUI Whether to enable the media controls UI. Default is `true`.
- * @param {string}  type             The media type.
- * @param {string}  providerNameSlug The provider name slug.
- * @return {boolean} Whether to enable the media controls UI.
- */
-applyFilters( 'mediaChrome.controls.ui.enable', true, type, providerNameSlug );
-
-// Example:
-import { addFilter } from '@wordpress/hooks';
-
-addFilter(
-	'mediaChrome.controls.ui.enable',
-	'my-plugin/disableMediaChromeControlsUI',
-	() => {
-		return false;
+### Toggle the Muted control visibility
+```json
+{
+	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+	"version": 2,
+	"settings": {
+		"custom": {
+			"mediaChrome": {
+				"muted": false
+			}
+		}
 	}
-);
+}
+```
+
+### Toggle the Playback controls control visibility
+```json
+{
+	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+	"version": 2,
+	"settings": {
+		"custom": {
+			"mediaChrome": {
+				"controls": false
+			}
+		}
+	}
+}
+```
+
+### Toggle the Play inline control visibility
+```json
+{
+	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+	"version": 2,
+	"settings": {
+		"custom": {
+			"mediaChrome": {
+				"playsInline": false
+			}
+		}
+	}
+}
+```
+
+### Toggle the Preload control visibility
+```json
+{
+	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+	"version": 2,
+	"settings": {
+		"custom": {
+			"mediaChrome": {
+				"preload": false
+			}
+		}
+	}
+}
+```
+
+### Toggle the Poster control visibility
+```json
+{
+	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+	"version": 2,
+	"settings": {
+		"custom": {
+			"mediaChrome": {
+				"poster": false
+			}
+		}
+	}
+}
 ```
 
 ## Options

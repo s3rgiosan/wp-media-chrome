@@ -3,7 +3,7 @@
  * Plugin Name:       Media Chrome for Embed Blocks
  * Description:       Enhance your audio and video block embeds with custom web components from Media Chrome.
  * Plugin URI:        https://github.com/s3rgiosan/wp-media-chrome
- * Requires at least: 6.4
+ * Requires at least: 6.5
  * Requires PHP:      7.4
  * Version:           1.0.0
  * Author:            Sérgio Santos

@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, useSetting } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	PanelRow,
@@ -11,7 +11,6 @@ import {
 } from '@wordpress/components';
 import { __, _x } from '@wordpress/i18n';
 import { useInstanceId } from '@wordpress/compose';
-import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
@@ -20,8 +19,6 @@ import PosterImage from './poster-image';
 
 const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 	const {
-		type,
-		providerNameSlug,
 		autohide,
 		muted,
 		controls,
@@ -44,33 +41,26 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 
 	const instanceId = useInstanceId(MediaChromeInspectorControls);
 
-	/**
-	 * Filters whether to enable the media controls UI.
-	 *
-	 * @param {boolean} enableControlsUI Whether to enable the media controls UI. Default is `true`.
-	 * @param {string}  type             The media type.
-	 * @param {string}  providerNameSlug The provider name slug.
-	 * @return {boolean} Whether to enable the media controls UI.
-	 */
-	const enableControlsUI = applyFilters(
-		'mediaChrome.controls.ui.enable',
-		true,
-		type,
-		providerNameSlug,
-	);
+	const isMutedEnabled = useSetting('custom.mediaChrome.muted') || true;
+	const isControlsEnabled = useSetting('custom.mediaChrome.controls') || true;
+	const isPlaysInlineEnabled = useSetting('custom.mediaChrome.playsInline') || true;
+	const isPreloadEnabled = useSetting('custom.mediaChrome.preload') || true;
+	const isPosterEnabled = useSetting('custom.mediaChrome.poster') || true;
 
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Media Chrome', 'wp-media-chrome')}>
-				<PanelRow>
-					<ToggleControl
-						label={__('Muted', 'wp-media-chrome')}
-						checked={muted}
-						onChange={(value) => setAttributes({ muted: value })}
-						__nextHasNoMarginBottom
-					/>
-				</PanelRow>
-				{enableControlsUI && (
+				{isMutedEnabled && (
+					<PanelRow>
+						<ToggleControl
+							label={__('Muted', 'wp-media-chrome')}
+							checked={muted}
+							onChange={(value) => setAttributes({ muted: value })}
+							__nextHasNoMarginBottom
+						/>
+					</PanelRow>
+				)}
+				{isControlsEnabled && (
 					<PanelRow>
 						<ToggleControl
 							label={__('Playback controls', 'wp-media-chrome')}
@@ -80,41 +70,47 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						/>
 					</PanelRow>
 				)}
-				<PanelRow>
-					<ToggleControl
-						label={__('Play inline', 'wp-media-chrome')}
-						checked={playsInline}
-						onChange={(value) => setAttributes({ playsInline: value })}
-						help={__(
-							'When enabled, videos will play directly within the webpage on mobile browsers, instead of opening in a fullscreen player.',
-						)}
-						__nextHasNoMarginBottom
-					/>
-				</PanelRow>
-				<PanelRow>
-					<SelectControl
-						__next40pxDefaultSize
-						__nextHasNoMarginBottom
-						label={__('Preload')}
-						value={preload}
-						onChange={(value) => setAttributes({ preload: value })}
-						options={[
-							{ value: 'auto', label: __('Auto') },
-							{ value: 'metadata', label: __('Metadata') },
-							{ value: 'none', label: _x('None', 'Preload value') },
-						]}
-						hideCancelButton
-					/>
-				</PanelRow>
-				<PanelRow>
-					<PosterImage
-						poster={poster}
-						setAttributes={setAttributes}
-						instanceId={instanceId}
-					/>
-				</PanelRow>
+				{isPlaysInlineEnabled && (
+					<PanelRow>
+						<ToggleControl
+							label={__('Play inline', 'wp-media-chrome')}
+							checked={playsInline}
+							onChange={(value) => setAttributes({ playsInline: value })}
+							help={__(
+								'When enabled, videos will play directly within the webpage on mobile browsers, instead of opening in a fullscreen player.',
+							)}
+							__nextHasNoMarginBottom
+						/>
+					</PanelRow>
+				)}
+				{isPreloadEnabled && (
+					<PanelRow>
+						<SelectControl
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+							label={__('Preload')}
+							value={preload}
+							onChange={(value) => setAttributes({ preload: value })}
+							options={[
+								{ value: 'auto', label: __('Auto') },
+								{ value: 'metadata', label: __('Metadata') },
+								{ value: 'none', label: _x('None', 'Preload value') },
+							]}
+							hideCancelButton
+						/>
+					</PanelRow>
+				)}
+				{isPosterEnabled && (
+					<PanelRow>
+						<PosterImage
+							poster={poster}
+							setAttributes={setAttributes}
+							instanceId={instanceId}
+						/>
+					</PanelRow>
+				)}
 			</PanelBody>
-			{enableControlsUI && controls && (
+			{isControlsEnabled && controls && (
 				<>
 					<PanelBody
 						title={__('Media Chrome — Controls', 'wp-media-chrome')}
