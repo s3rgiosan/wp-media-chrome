@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { InspectorControls, useSetting } from '@wordpress/block-editor';
+import { InspectorControls, useSettings } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	PanelRow,
@@ -41,16 +41,24 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 
 	const instanceId = useInstanceId(MediaChromeInspectorControls);
 
-	const isMutedEnabled = useSetting('custom.mediaChrome.muted') || true;
-	const isControlsEnabled = useSetting('custom.mediaChrome.controls') || true;
-	const isPlaysInlineEnabled = useSetting('custom.mediaChrome.playsInline') || true;
-	const isPreloadEnabled = useSetting('custom.mediaChrome.preload') || true;
-	const isPosterEnabled = useSetting('custom.mediaChrome.poster') || true;
+	const controlsSettings = useSettings(
+		'custom.mediaChrome.controls.muted',
+		'custom.mediaChrome.controls.controls',
+		'custom.mediaChrome.controls.playsInline',
+		'custom.mediaChrome.controls.preload',
+		'custom.mediaChrome.controls.poster',
+	);
+
+	const isMutedControlEnabled = controlsSettings[0] ?? true;
+	const isControlsControlEnabled = controlsSettings[1] ?? true;
+	const isPlaysInlineControlEnabled = controlsSettings[2] ?? true;
+	const isPreloadControlEnabled = controlsSettings[3] ?? true;
+	const isPosterControlEnabled = controlsSettings[4] ?? true;
 
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Media Chrome', 'wp-media-chrome')}>
-				{isMutedEnabled && (
+				{isMutedControlEnabled && (
 					<PanelRow>
 						<ToggleControl
 							label={__('Muted', 'wp-media-chrome')}
@@ -60,7 +68,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						/>
 					</PanelRow>
 				)}
-				{isControlsEnabled && (
+				{isControlsControlEnabled && (
 					<PanelRow>
 						<ToggleControl
 							label={__('Playback controls', 'wp-media-chrome')}
@@ -70,7 +78,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						/>
 					</PanelRow>
 				)}
-				{isPlaysInlineEnabled && (
+				{isPlaysInlineControlEnabled && (
 					<PanelRow>
 						<ToggleControl
 							label={__('Play inline', 'wp-media-chrome')}
@@ -83,7 +91,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						/>
 					</PanelRow>
 				)}
-				{isPreloadEnabled && (
+				{isPreloadControlEnabled && (
 					<PanelRow>
 						<SelectControl
 							__next40pxDefaultSize
@@ -100,7 +108,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						/>
 					</PanelRow>
 				)}
-				{isPosterEnabled && (
+				{isPosterControlEnabled && (
 					<PanelRow>
 						<PosterImage
 							poster={poster}
@@ -110,7 +118,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 					</PanelRow>
 				)}
 			</PanelBody>
-			{isControlsEnabled && controls && (
+			{isControlsControlEnabled && controls && (
 				<>
 					<PanelBody
 						title={__('Media Chrome — Controls', 'wp-media-chrome')}

@@ -54,7 +54,9 @@ composer require s3rgiosan/wp-media-chrome
   "settings": {
     "custom": {
       "mediaChrome": {
-        "muted": false
+        "controls": {
+          "muted": false
+        }
       }
     }
   }
@@ -69,7 +71,9 @@ composer require s3rgiosan/wp-media-chrome
   "settings": {
     "custom": {
       "mediaChrome": {
-        "controls": false
+        "controls": {
+          "controls": false
+        }
       }
     }
   }
@@ -84,7 +88,9 @@ composer require s3rgiosan/wp-media-chrome
   "settings": {
     "custom": {
       "mediaChrome": {
-        "playsInline": false
+        "controls": {
+          "playsInline": false
+        }
       }
     }
   }
@@ -99,7 +105,9 @@ composer require s3rgiosan/wp-media-chrome
   "settings": {
     "custom": {
       "mediaChrome": {
-        "preload": false
+        "controls": {
+          "preload": false
+        }
       }
     }
   }
@@ -114,7 +122,9 @@ composer require s3rgiosan/wp-media-chrome
   "settings": {
     "custom": {
       "mediaChrome": {
-        "poster": false
+        "controls": {
+          "poster": false
+        }
       }
     }
   }
