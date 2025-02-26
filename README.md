@@ -114,10 +114,10 @@ composer require s3rgiosan/wp-media-chrome
   "settings": {
     "custom": {
       "mediaChrome": {
-                "poster": false
-            }
-        }
+        "poster": false
+      }
     }
+  }
 }
 ```
 
