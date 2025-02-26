@@ -49,75 +49,75 @@ composer require s3rgiosan/wp-media-chrome
 ### Toggle the Muted control visibility
 ```json
 {
-	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
-	"version": 2,
-	"settings": {
-		"custom": {
-			"mediaChrome": {
-				"muted": false
-			}
-		}
-	}
+  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+  "version": 2,
+  "settings": {
+    "custom": {
+      "mediaChrome": {
+        "muted": false
+      }
+    }
+  }
 }
 ```
 
 ### Toggle the Playback controls control visibility
 ```json
 {
-	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
-	"version": 2,
-	"settings": {
-		"custom": {
-			"mediaChrome": {
-				"controls": false
-			}
-		}
-	}
+  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+  "version": 2,
+  "settings": {
+    "custom": {
+      "mediaChrome": {
+        "controls": false
+      }
+    }
+  }
 }
 ```
 
 ### Toggle the Play inline control visibility
 ```json
 {
-	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
-	"version": 2,
-	"settings": {
-		"custom": {
-			"mediaChrome": {
-				"playsInline": false
-			}
-		}
-	}
+  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+  "version": 2,
+  "settings": {
+    "custom": {
+      "mediaChrome": {
+        "playsInline": false
+      }
+    }
+  }
 }
 ```
 
 ### Toggle the Preload control visibility
 ```json
 {
-	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
-	"version": 2,
-	"settings": {
-		"custom": {
-			"mediaChrome": {
-				"preload": false
-			}
-		}
-	}
+  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+  "version": 2,
+  "settings": {
+    "custom": {
+      "mediaChrome": {
+        "preload": false
+      }
+    }
+  }
 }
 ```
 
 ### Toggle the Poster control visibility
 ```json
 {
-	"$schema": "https://schemas.wp.org/wp/6.5/theme.json",
-	"version": 2,
-	"settings": {
-		"custom": {
-			"mediaChrome": {
-				"poster": false
-			}
-		}
-	}
+  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+  "version": 2,
+  "settings": {
+    "custom": {
+      "mediaChrome": {
+                "poster": false
+            }
+        }
+    }
 }
 ```
 
