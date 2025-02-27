@@ -14,7 +14,8 @@ import MediaChromeInspectorControls from './inspector-controls';
 registerBlockExtension(['core/embed'], {
 	extensionName: 'wp-media-chrome',
 	attributes: additionalAttributes,
-	classNameGenerator: () => 'has-media-chrome',
+	classNameGenerator: () => null,
+	inlineStyleGenerator: () => null,
 	Edit: (props) => {
 		return <MediaChromeInspectorControls {...props} />;
 	},

@@ -46,41 +46,12 @@ composer require s3rgiosan/wp-media-chrome
 
 ## Settings
 
-### Toggle the Muted control visibility
-```json
-{
-  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
-  "version": 2,
-  "settings": {
-    "custom": {
-      "mediaChrome": {
-        "controls": {
-          "muted": false
-        }
-      }
-    }
-  }
-}
-```
+### UI Customization (Block Editor)
 
-### Toggle the Playback controls control visibility
-```json
-{
-  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
-  "version": 2,
-  "settings": {
-    "custom": {
-      "mediaChrome": {
-        "controls": {
-          "controls": false
-        }
-      }
-    }
-  }
-}
-```
+The settings below, defined in the `theme.json` file, control which customization options appear in the block editor when configuring the media player.
+They do not directly affect the frontend but determine which settings users can modify.
+By default, all options are visible in the block editor.
 
-### Toggle the Play inline control visibility
 ```json
 {
   "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
@@ -88,42 +59,23 @@ composer require s3rgiosan/wp-media-chrome
   "settings": {
     "custom": {
       "mediaChrome": {
-        "controls": {
-          "playsInline": false
-        }
-      }
-    }
-  }
-}
-```
-
-### Toggle the Preload control visibility
-```json
-{
-  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
-  "version": 2,
-  "settings": {
-    "custom": {
-      "mediaChrome": {
-        "controls": {
-          "preload": false
-        }
-      }
-    }
-  }
-}
-```
-
-### Toggle the Poster control visibility
-```json
-{
-  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
-  "version": 2,
-  "settings": {
-    "custom": {
-      "mediaChrome": {
-        "controls": {
-          "poster": false
+        "ui": {
+          "muted": false,
+          "controls": false,
+          "playsInline": false,
+          "preload": false,
+          "poster": false,
+          "autohide": false,
+          "playButton": false,
+          "seekBackwardButton": false,
+          "seekForwardButton": false,
+          "muteButton": false,
+          "volumeRangeButton": false,
+          "timeDisplay": false,
+          "timeRange": false,
+          "playbackRateButton": false,
+          "fullscreenButton": false,
+          "airplayButton": false
         }
       }
     }
