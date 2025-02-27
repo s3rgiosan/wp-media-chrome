@@ -5,7 +5,9 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		...getWebpackEntryPoints(),
-		index: './src/index.js',
-		view: './src/view.js',
+		'embed/index': './src/embed/edit.js',
+		'embed/view': './src/embed/view.js',
+		'video/index': './src/embed/edit.js',
+		'video/view': './src/embed/view.js',
 	},
 };

@@ -31,4 +31,14 @@ class ProviderRegistry {
 	public static function get_provider( $slug ) {
 		return static::$providers[ $slug ] ?? null;
 	}
+
+	/**
+	 * Check if a provider is registered.
+	 *
+	 * @param string $slug The provider slug.
+	 * @return bool True if the provider is registered, false otherwise.
+	 */
+	public static function has_provider( $slug ) {
+		return isset( static::$providers[ $slug ] );
+	}
 }

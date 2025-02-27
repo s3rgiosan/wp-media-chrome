@@ -32,9 +32,9 @@ class Plugin {
 	 * Setup hooks and register providers.
 	 */
 	public function setup() {
-		add_filter( 'render_block_core/embed', [ $this, 'render_embed_video_block' ], 10, 2 );
+		add_filter( 'render_block_core/embed', [ $this, 'render_embed_block' ], 10, 2 );
 		add_filter( 'block_type_metadata', [ $this, 'embed_block_type_metadata' ] );
-		add_filter( 'enqueue_block_assets', [ $this, 'register_assets' ] );
+		add_filter( 'enqueue_block_assets', [ $this, 'register_embed_block_assets' ] );
 
 		// Register providers.
 		ProviderRegistry::register_provider( new Vimeo() );
@@ -43,21 +43,26 @@ class Plugin {
 	}
 
 	/**
-	 * Render embed video blocks.
-	 *
-	 * Wraps video embed blocks with a custom media controller.
+	 * Render Embed block.
 	 *
 	 * @param  string $block_content The block content.
 	 * @param  array  $block         The full block, including name and attributes.
 	 * @return string The modified block content.
 	 */
-	public function render_embed_video_block( $block_content, $block ) {
+	public function render_embed_block( $block_content, $block ) {
 
 		if ( empty( $block['attrs']['type'] ) || 'video' !== $block['attrs']['type'] ) {
 			return $block_content;
 		}
 
-		$provider_slug = $block_attrs['providerNameSlug'] ?? 'video';
+		$provider_slug = 'video';
+		if ( ! empty( $block['attrs']['providerNameSlug'] ) ) {
+			$provider_slug = $block['attrs']['providerNameSlug'];
+		}
+
+		if ( ! ProviderRegistry::has_provider( $provider_slug ) ) {
+			return $block_content;
+		}
 
 		$block_wrapper_classes = [
 			'wp-block-embed',
@@ -119,11 +124,11 @@ class Plugin {
 	}
 
 	/**
-	 * Register assets.
+	 * Register Embed block assets.
 	 *
 	 * @return void
 	 */
-	public function register_assets() {
+	public function register_embed_block_assets() {
 
 		$scripts = [
 			'editor-script' => 'index',
@@ -133,7 +138,7 @@ class Plugin {
 		foreach ( $scripts as $asset_handle => $filename ) {
 
 			$asset_file = sprintf(
-				'%s/build/%s.asset.php',
+				'%s/build/embed/%s.asset.php',
 				untrailingslashit( S3S_MEDIA_CHROME_PATH ),
 				$filename
 			);
@@ -145,7 +150,7 @@ class Plugin {
 			wp_register_script(
 				"media-chrome-$asset_handle",
 				sprintf(
-					'%s/build/%s.js',
+					'%s/build/embed/%s.js',
 					untrailingslashit( S3S_MEDIA_CHROME_URL ),
 					$filename
 				),
@@ -162,7 +167,7 @@ class Plugin {
 		foreach ( $styles as $asset_handle => $filename ) {
 
 			$asset_file = sprintf(
-				'%s/build/%s.css',
+				'%s/build/embed/%s.css',
 				untrailingslashit( S3S_MEDIA_CHROME_PATH ),
 				$filename
 			);
@@ -170,7 +175,7 @@ class Plugin {
 			wp_register_style(
 				"media-chrome-$asset_handle",
 				sprintf(
-					'%s/build/%s.css',
+					'%s/build/embed/%s.css',
 					untrailingslashit( S3S_MEDIA_CHROME_URL ),
 					$filename
 				),

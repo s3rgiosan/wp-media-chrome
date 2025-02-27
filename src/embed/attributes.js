@@ -1,7 +1,4 @@
 const attributes = {
-	autohide: {
-		type: 'integer',
-	},
 	muted: {
 		type: 'boolean',
 	},
@@ -16,6 +13,9 @@ const attributes = {
 	},
 	poster: {
 		type: 'string',
+	},
+	autohide: {
+		type: 'integer',
 	},
 	playButton: {
 		type: 'boolean',
