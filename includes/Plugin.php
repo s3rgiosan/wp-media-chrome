@@ -65,7 +65,6 @@ class Plugin {
 			'is-provider-' . $provider_slug,
 			'wp-block-embed-' . $provider_slug,
 			$block['attrs']['className'] ?? '',
-			'has-media-chrome',
 		];
 
 		$block_content = sprintf(

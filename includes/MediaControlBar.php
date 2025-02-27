@@ -5,16 +5,39 @@ namespace S3S\WP\MediaChrome;
 class MediaControlBar {
 
 	/**
-	 * Generate the control bar markup based on block attributes.
+	 * The control bar attributes.
+	 *
+	 * @var array
+	 */
+	public static $attributes = [
+		'playButton',
+		'seekBackwardButton',
+		'seekForwardButton',
+		'muteButton',
+		'volumeRange',
+		'timeDisplay',
+		'timeRange',
+		'playbackRateButton',
+		'fullscreenButton',
+		'airplayButton',
+	];
+
+	/**
+	 * Generate the control bar markup.
 	 *
 	 * @param  array $block_attrs Block attributes.
 	 * @return string The HTML markup for the media control bar. Empty string if the control bar is disabled.
 	 */
 	public static function generate_markup( $block_attrs ) {
 
-		if ( isset( $block_attrs['controls'] ) && false === $block_attrs['controls'] ) {
+		$global_settings = get_global_settings();
+		$custom_settings = wp_parse_args( $block_attrs, $global_settings );
+
+		if ( isset( $custom_settings['controls'] ) && false === $custom_settings['controls'] ) {
 			return '';
 		}
+
+		$attributes = array_intersect_key( $custom_settings, array_flip( self::$attributes ) );
 
 		$components = self::get_components();
 
@@ -40,23 +63,19 @@ class MediaControlBar {
 
 		$control_bar = '<media-control-bar>';
 
-		foreach ( $components as $tag => $data ) {
+		foreach ( $components as $tag => $component ) {
 
 			if ( ! in_array( $tag, $allowed_components, true ) ) {
 				continue;
 			}
 
-			if ( isset( $block_attrs[ $data['block_attr'] ] ) && false === $block_attrs[ $data['block_attr'] ] ) {
-				continue;
-			}
-
-			if ( ! isset( $block_attrs[ $data['block_attr'] ] ) && ! $data['default_value'] ) {
+			if ( false === $attributes[ $component['setting'] ] ) {
 				continue;
 			}
 
 			$parsed_slots = '';
 
-			if ( isset( $data['slots'] ) && is_array( $data['slots'] ) ) {
+			if ( isset( $component['slots'] ) && is_array( $component['slots'] ) ) {
 
 				$filter_tag = str_replace( '-', '_', $tag );
 
@@ -67,12 +86,12 @@ class MediaControlBar {
 				 * @param  array $block_attrs The block attributes.
 				 * @return array An array of slots.
 				 */
-				$slots = apply_filters( "s3s_media_chrome_control_bar_{$filter_tag}_slots", $data['slots'], $block_attrs );
+				$slots = apply_filters( "s3s_media_chrome_control_bar_{$filter_tag}_slots", $component['slots'], $block_attrs );
 
 				if ( ! empty( $slots ) && is_array( $slots ) ) {
 					foreach ( $slots as $slot_key => $slot_content ) {
 
-						if ( ! isset( $data['slots'][ $slot_key ] ) || empty( $slot_content ) ) {
+						if ( ! isset( $component['slots'][ $slot_key ] ) || empty( $slot_content ) ) {
 							continue;
 						}
 
@@ -101,32 +120,28 @@ class MediaControlBar {
 	protected static function get_components() {
 		return [
 			'media-play-button'          => [
-				'default_value' => true,
-				'block_attr'    => 'showPlayButton',
-				'slots'         => [
+				'setting' => 'playButton',
+				'slots'   => [
 					'play'  => '',
 					'pause' => '',
 					'icon'  => '',
 				],
 			],
 			'media-seek-backward-button' => [
-				'default_value' => true,
-				'block_attr'    => 'showSeekBackwardButton',
-				'slots'         => [
+				'setting' => 'seekBackwardButton',
+				'slots'   => [
 					'icon' => '',
 				],
 			],
 			'media-seek-forward-button'  => [
-				'default_value' => true,
-				'block_attr'    => 'showSeekForwardButton',
-				'slots'         => [
+				'setting' => 'seekForwardButton',
+				'slots'   => [
 					'icon' => '',
 				],
 			],
 			'media-mute-button'          => [
-				'default_value' => true,
-				'block_attr'    => 'showMuteButton',
-				'slots'         => [
+				'setting' => 'muteButton',
+				'slots'   => [
 					'off'    => '',
 					'low'    => '',
 					'medium' => '',
@@ -135,61 +150,37 @@ class MediaControlBar {
 				],
 			],
 			'media-volume-range'         => [
-				'default_value' => true,
-				'block_attr'    => 'showVolumeRange',
-				'slots'         => [
+				'setting' => 'volumeRange',
+				'slots'   => [
 					'thumb' => '',
 				],
 			],
 			'media-time-display'         => [
-				'default_value' => true,
-				'block_attr'    => 'showTimeDisplay',
+				'setting' => 'timeDisplay',
 			],
 			'media-time-range'           => [
-				'default_value' => true,
-				'block_attr'    => 'showTimeRange',
-				'slots'         => [
+				'setting' => 'timeRange',
+				'slots'   => [
 					'preview'       => '',
 					'preview-arrow' => '',
 					'current'       => '',
 					'thumb'         => '',
 				],
 			],
-			'media-captions-button'      => [
-				'default_value' => false,
-				'block_attr'    => 'showCaptionsButton',
-				'slots'         => [
-					'on'   => '',
-					'off'  => '',
-					'icon' => '',
-				],
-			],
 			'media-playback-rate-button' => [
-				'default_value' => true,
-				'block_attr'    => 'showPlaybackRateButton',
-			],
-			'media-pip-button'           => [
-				'default_value' => false,
-				'block_attr'    => 'showPipButton',
-				'slots'         => [
-					'enter' => '',
-					'exit'  => '',
-					'icon'  => '',
-				],
+				'setting' => 'playbackRateButton',
 			],
 			'media-fullscreen-button'    => [
-				'default_value' => true,
-				'block_attr'    => 'showFullscreenButton',
-				'slots'         => [
+				'setting' => 'fullscreenButton',
+				'slots'   => [
 					'enter' => '',
 					'exit'  => '',
 					'icon'  => '',
 				],
 			],
 			'media-airplay-button'       => [
-				'default_value' => false,
-				'block_attr'    => 'showAirplayButton',
-				'slots'         => [
+				'setting' => 'airplayButton',
+				'slots'   => [
 					'enter' => '',
 					'exit'  => '',
 					'icon'  => '',

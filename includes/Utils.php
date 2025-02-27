@@ -35,6 +35,7 @@ function build_attrs( $attributes = [] ) {
 			switch ( $key ) {
 				case 'src':
 				case 'href':
+				case 'poster':
 					$value = esc_url( $value );
 					break;
 				default:
@@ -49,4 +50,46 @@ function build_attrs( $attributes = [] ) {
 	$parsed_attributes = implode( ' ', $parsed_attributes );
 
 	return $parsed_attributes;
+}
+
+/**
+ * Retrieves the global Media Chrome settings.
+ *
+ * This function merges core defaults with theme-level and user-defined settings
+ * retrieved via `wp_get_global_settings()`.
+ *
+ * @uses wp_get_global_settings()
+ *
+ * @return array The merged Media Chrome settings.
+ */
+function get_global_settings() {
+
+	$defaults = [
+		'autohide'           => 2,
+		'muted'              => false,
+		'controls'           => true,
+		'playsInline'        => false,
+		'preload'            => 'metadata',
+		'poster'             => '',
+		'playButton'         => true,
+		'seekBackwardButton' => true,
+		'seekForwardButton'  => true,
+		'muteButton'         => true,
+		'volumeRange'        => true,
+		'timeDisplay'        => true,
+		'timeRange'          => true,
+		'playbackRateButton' => true,
+		'fullscreenButton'   => true,
+		'airplayButton'      => false,
+	];
+
+	$presets = wp_get_global_settings( [ 'custom', 'mediaChrome', 'presets' ] );
+
+	if ( empty( $presets ) ) {
+		return $defaults;
+	}
+
+	$settings = wp_parse_args( $presets, $defaults );
+
+	return $settings;
 }

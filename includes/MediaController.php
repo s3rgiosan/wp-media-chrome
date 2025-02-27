@@ -5,10 +5,23 @@ namespace S3S\WP\MediaChrome;
 class MediaController {
 
 	/**
-	 * Generate the media controller markup based on block attributes.
+	 * The controller attributes.
+	 *
+	 * @var array
+	 */
+	public static $attributes = [
+		'autohide',
+		'muted',
+		'controls',
+		'playsInline',
+		'preload',
+	];
+
+	/**
+	 * Generate the controller markup.
 	 *
 	 * @param  array $block_attrs The block attributes.
-	 * @return string The media controller markup. Empty string if the provider is not found.
+	 * @return string The controller markup. Empty string if the provider is not found.
 	 */
 	public static function generate_markup( $block_attrs ) {
 
@@ -31,7 +44,7 @@ class MediaController {
 				%3$s
 				%4$s
 			</media-controller>',
-			self::get_media_controller_attrs( $block_attrs ),
+			self::get_attrs( $block_attrs ),
 			$provider_markup,
 			MediaPosterImage::generate_markup( $block_attrs ),
 			MediaControlBar::generate_markup( $block_attrs )
@@ -41,51 +54,29 @@ class MediaController {
 	}
 
 	/**
-	 * Get the media controller attributes.
+	 * Get the controller attributes.
 	 *
 	 * @param  array $block_attrs The block attributes.
-	 * @return string The media controller attributes as a string.
+	 * @return string The controller attributes as a string.
 	 */
-	protected static function get_media_controller_attrs( $block_attrs ) {
+	protected static function get_attrs( $block_attrs ) {
 
-		$controller_attrs = [
-			'autohide'    => 2,
-			'muted'       => false,
-			'controls'    => true,
-			'playsInline' => false,
-			'preload'     => 'metadata',
-		];
+		$global_settings = get_global_settings();
+		$custom_settings = wp_parse_args( $block_attrs, $global_settings );
 
-		if ( isset( $block_attrs['autohide'] ) ) {
-			$controller_attrs['autohide'] = $block_attrs['autohide'];
-		}
-
-		if ( isset( $block_attrs['muted'] ) && true === $block_attrs['muted'] ) {
-			$controller_attrs['muted'] = true;
-		}
-
-		if ( isset( $block_attrs['controls'] ) && false === $block_attrs['controls'] ) {
-			$controller_attrs['controls'] = false;
-		}
-
-		if ( isset( $block_attrs['playsInline'] ) && true === $block_attrs['playsInline'] ) {
-			$controller_attrs['playsInline'] = true;
-		}
-
-		if ( isset( $block_attrs['preload'] ) ) {
-			$controller_attrs['preload'] = $block_attrs['preload'];
-		}
+		$attributes = array_intersect_key( $custom_settings, array_flip( self::$attributes ) );
 
 		/**
-		 * Filters the media controller attributes.
+		 * Filters the controller attributes.
 		 *
-		 * @param  array  $controller_attrs An array of HTML attributes.
-		 * @param  array  $block_attrs      The block attributes.
+		 * @param  array  $attributes      An array of HTML attributes.
+		 * @param  array  $block_attrs     The block attributes.
+		 * @param  array  $custom_settings The custom settings.
 		 * @return array
 		 */
-		$controller_attrs = apply_filters( 's3s_media_chrome_controller_attrs', $controller_attrs, $block_attrs );
-		$controller_attrs = build_attrs( $controller_attrs );
+		$attributes = apply_filters( 's3s_media_chrome_controller_attributes', $attributes, $block_attrs, $custom_settings );
+		$attributes = build_attrs( $attributes );
 
-		return $controller_attrs;
+		return $attributes;
 	}
 }

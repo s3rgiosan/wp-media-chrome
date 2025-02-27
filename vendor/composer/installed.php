@@ -3,7 +3,7 @@
         'name' => 's3rgiosan/wp-media-chrome',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'fb13d8a69b8f987601516e224f292691e9064049',
+        'reference' => '0b2c66862fed98ada17b785d45a7d5d59d6a04ca',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         's3rgiosan/wp-media-chrome' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'fb13d8a69b8f987601516e224f292691e9064049',
+            'reference' => '0b2c66862fed98ada17b785d45a7d5d59d6a04ca',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

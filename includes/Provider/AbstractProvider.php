@@ -48,6 +48,6 @@ abstract class AbstractProvider {
 		 * @param  string $slug       The provider slug.
 		 * @return array
 		 */
-		return apply_filters( "s3s_media_chrome_{$this->get_slug()}_provider_attrs", $this->provider_attrs, $this->get_slug() );
+		return apply_filters( "s3s_media_chrome_{$this->get_slug()}_provider_attributes", $this->provider_attrs, $this->get_slug() );
 	}
 }
