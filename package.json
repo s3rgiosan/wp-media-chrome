@@ -12,7 +12,7 @@
       "url": "https://goblindegook.com"
     }
   ],
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "main": "build/index.js",
   "scripts": {
     "build": "wp-scripts build",

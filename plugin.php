@@ -8,8 +8,8 @@
  * Version:           1.0.0
  * Author:            Sérgio Santos
  * Author URI:        https://s3rgiosan.dev/?utm_source=wp-plugins&utm_medium=wp-media-chrome&utm_campaign=author-uri
- * License:           GPL-3.0-or-later
- * License URI:       https://spdx.org/licenses/GPL-3.0-or-later.html
+ * License:           MIT
+ * License URI:       https://opensource.org/license/mit/
  * Text Domain:       wp-media-chrome
  *
  * @package           MediaChrome

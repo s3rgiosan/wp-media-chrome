@@ -1,7 +1,7 @@
 {
   "name": "s3rgiosan/wp-media-chrome",
   "type": "wordpress-plugin",
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "authors": [
     {
       "name": "Sérgio Santos",
