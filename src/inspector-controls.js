@@ -82,9 +82,6 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 
 	const isControlsEnabled = controlsSetting && (controls ?? controlsPreset);
 
-	console.log(controlsSetting);
-	console.log(controlsPreset);
-
 	return (
 		<InspectorControls>
 			<PanelBody title={__('Media Chrome', 'wp-media-chrome')}>
