@@ -27,6 +27,9 @@ class ComposerStaticInitad95e40ee0ed38d682e252d526ef2a83
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'S3S\\WP\\MediaChrome\\MediaControlBar' => __DIR__ . '/../..' . '/includes/MediaControlBar.php',
+        'S3S\\WP\\MediaChrome\\MediaController' => __DIR__ . '/../..' . '/includes/MediaController.php',
+        'S3S\\WP\\MediaChrome\\MediaPosterImage' => __DIR__ . '/../..' . '/includes/MediaPosterImage.php',
         'S3S\\WP\\MediaChrome\\Plugin' => __DIR__ . '/../..' . '/includes/Plugin.php',
         'S3S\\WP\\MediaChrome\\ProviderRegistry' => __DIR__ . '/../..' . '/includes/ProviderRegistry.php',
         'S3S\\WP\\MediaChrome\\Provider\\AbstractProvider' => __DIR__ . '/../..' . '/includes/Provider/AbstractProvider.php',

@@ -7,6 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'S3S\\WP\\MediaChrome\\MediaControlBar' => $baseDir . '/includes/MediaControlBar.php',
+    'S3S\\WP\\MediaChrome\\MediaController' => $baseDir . '/includes/MediaController.php',
+    'S3S\\WP\\MediaChrome\\MediaPosterImage' => $baseDir . '/includes/MediaPosterImage.php',
     'S3S\\WP\\MediaChrome\\Plugin' => $baseDir . '/includes/Plugin.php',
     'S3S\\WP\\MediaChrome\\ProviderRegistry' => $baseDir . '/includes/ProviderRegistry.php',
     'S3S\\WP\\MediaChrome\\Provider\\AbstractProvider' => $baseDir . '/includes/Provider/AbstractProvider.php',

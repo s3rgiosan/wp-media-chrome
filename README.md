@@ -11,11 +11,11 @@ This plugin upgrades the default audio and video embeds by integrating custom we
 
 | Embed | Status |
 |---------------|--------|
-| [YouTube](https://wordpress.org/documentation/article/youtube-embed/) | ✅ |
-| [Vimeo](https://wordpress.org/documentation/article/vimeo-embed/) | ✅ |
-| [Wistia](https://github.com/s3rgiosan/wistia-embed-block) | ✅ |
-| Video | 🚧 |
-| Audio | 🚧 |
+| [YouTube](https://wordpress.org/documentation/article/youtube-embed/) | ✅ Complete |
+| [Vimeo](https://wordpress.org/documentation/article/vimeo-embed/) | ✅ Complete |
+| [Wistia](https://github.com/s3rgiosan/wistia-embed-block) | ✅ Complete |
+| Video | 🚧 In Development |
+| Audio | 🚧 In Development |
 
 ## Requirements
 
@@ -44,13 +44,23 @@ composer require s3rgiosan/wp-media-chrome
 2. Run `composer install` to install the plugin.
 3. Activate the plugin from your WordPress admin area or using WP-CLI.
 
-## Settings
+## Quick Start
 
-### UI Customization (Block Editor)
+After installation, the plugin automatically enhances supported embed blocks.
 
-The settings below, defined in the `theme.json` file, control which customization options appear in the block editor when configuring the media player.
-They do not directly affect the frontend but determine which settings users can modify.
-By default, all options are visible in the block editor.
+To customize a media player:
+
+1. Insert a supported embed block
+2. Select the block to reveal its settings in the block editor sidebar
+3. Explore the new Media Chrome settings panel to customize your player
+
+## Block Editor
+
+### UI Settings
+
+UI Settings determine which customization options are visible to users in the block editor. These settings do not affect the player's frontend behavior — they only control what users can modify.
+
+By default, all customization options are enabled. To limit available options, add the following to your `theme.json` (example shows all options enabled):
 
 ```json
 {
@@ -60,21 +70,58 @@ By default, all options are visible in the block editor.
     "custom": {
       "mediaChrome": {
         "ui": {
+          "muted": true,
+          "controls": true,
+          "playsInline": true,
+          "preload": true,
+          "poster": true,
+          "autohide": true,
+          "playButton": true,
+          "seekBackwardButton": true,
+          "seekForwardButton": true,
+          "muteButton": true,
+          "volumeRangeButton": true,
+          "timeDisplay": true,
+          "timeRange": true,
+          "playbackRateButton": true,
+          "fullscreenButton": true,
+          "airplayButton": true
+        }
+      }
+    }
+  }
+}
+```
+
+### Preset Settings
+
+Preset Settings define the default values for each player option when no user preference is set. If a preset is not defined, the plugin will use the built-in defaults listed in the [Options](#options) section below.
+
+Example preset configuration for your `theme.json`:
+
+```json
+{
+  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+  "version": 2,
+  "settings": {
+    "custom": {
+      "mediaChrome": {
+        "presets": {
+          "autohide": 2,
           "muted": false,
-          "controls": false,
+          "controls": true,
           "playsInline": false,
-          "preload": false,
-          "poster": false,
-          "autohide": false,
-          "playButton": false,
-          "seekBackwardButton": false,
-          "seekForwardButton": false,
-          "muteButton": false,
-          "volumeRangeButton": false,
-          "timeDisplay": false,
-          "timeRange": false,
-          "playbackRateButton": false,
-          "fullscreenButton": false,
+          "preload": "metadata",
+          "poster": "",
+          "playButton": true,
+          "seekBackwardButton": true,
+          "seekForwardButton": true,
+          "muteButton": true,
+          "volumeRangeButton": true,
+          "timeDisplay": true,
+          "timeRange": true,
+          "playbackRateButton": true,
+          "fullscreenButton": true,
           "airplayButton": false
         }
       }
@@ -121,61 +168,61 @@ URL for the poster image displayed before playback starts.
 
 Default: `''`
 
-### `displayPlayButton`
+### `playButton`
 
 Whether to display the play/pause button in the control bar.
 
 Default: `true`
 
-### `displaySeekBackwardButton`
+### `seekBackwardButton`
 
 Whether to display the button for seeking backward.
 
 Default: `true`
 
-### `displaySeekForwardButton`
+### `seekForwardButton`
 
 Whether to display the button for seeking forward.
 
 Default: `true`
 
-### `displayMuteButton`
+### `muteButton`
 
 Whether to display the mute/unmute button.
 
 Default: `true`
 
-### `displayVolumeRange`
+### `volumeRange`
 
 Whether to show the volume slider.
 
 Default: `true`
 
-### `displayTimeDisplay`
+### `timeDisplay`
 
 Whether to show the current time and duration of the media.
 
 Default: `true`
 
-### `displayTimeRange`
+### `timeRange`
 
 Whether to display the timeline or progress bar.
 
 Default: `true`
 
-### `displayPlaybackRateButton`
+### `playbackRateButton`
 
 Whether to include a control for adjusting playback speed.
 
 Default: `true`
 
-### `displayFullscreenButton`
+### `fullscreenButton`
 
 Whether to display the fullscreen toggle button.
 
 Default: `true`
 
-### `displayAirplayButton`
+### `airplayButton`
 
 Whether to display the AirPlay button (only supported in Safari).
 
@@ -183,8 +230,31 @@ Default: `false`
 
 ## Styling
 
-See [Media Chrome styling](https://www.media-chrome.org/docs/en/styling) section.
+Media Chrome components can be fully styled with CSS to match your site's design. For complete styling documentation, see the [Media Chrome styling documentation](https://www.media-chrome.org/docs/en/styling).
+
+Example of basic styling customization:
+
+```css
+/* Change the color of the media controls */
+media-control-bar {
+  --media-control-background: rgba(0, 0, 0, 0.7);
+  --media-control-hover-background: rgba(0, 0, 0, 0.9);
+}
+
+/* Style the play button */
+media-play-button {
+  --media-button-icon-width: 24px;
+  --media-button-icon-height: 24px;
+  --media-button-icon-transform: scale(1.2);
+}
+```
 
 ## Changelog
 
 A complete listing of all notable changes to this project are documented in [CHANGELOG.md](https://github.com/s3rgiosan/wp-media-chrome/blob/main/CHANGELOG.md).
+
+## License and Attribution
+
+This plugin is licensed under MIT.
+
+This project incorporates [Media Chrome](https://www.media-chrome.org/), which is licensed under the [MIT License](https://github.com/muxinc/media-chrome/blob/main/LICENSE).

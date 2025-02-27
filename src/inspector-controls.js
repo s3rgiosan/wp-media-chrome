@@ -25,23 +25,21 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 		playsInline,
 		preload,
 		poster,
-		displayPlayButton,
-		displaySeekBackwardButton,
-		displaySeekForwardButton,
-		displayMuteButton,
-		displayVolumeRange,
-		displayTimeDisplay,
-		displayTimeRange,
-		// displayCaptionsButton,
-		displayPlaybackRateButton,
-		// displayPipButton,
-		displayFullscreenButton,
-		displayAirplayButton,
+		playButton,
+		seekBackwardButton,
+		seekForwardButton,
+		muteButton,
+		volumeRange,
+		timeDisplay,
+		timeRange,
+		playbackRateButton,
+		fullscreenButton,
+		airplayButton,
 	} = attributes;
 
 	const instanceId = useInstanceId(MediaChromeInspectorControls);
 
-	const [settings] = useSettings('custom.mediaChrome') ?? [{}];
+	const [settings = {}] = useSettings('custom.mediaChrome') ?? [];
 
 	const {
 		ui: {
@@ -62,8 +60,30 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 			fullscreenButton: fullscreenButtonSetting = true,
 			airplayButton: airplayButtonSetting = true,
 		} = {},
+		presets: {
+			autohide: autohidePreset = 2,
+			muted: mutedPreset = false,
+			controls: controlsPreset = true,
+			playsInline: playsInlinePreset = false,
+			preload: preloadPreset = 'metadata',
+			poster: posterPreset = '',
+			playButton: playButtonPreset = true,
+			seekBackwardButton: seekBackwardButtonPreset = true,
+			seekForwardButton: seekForwardButtonPreset = true,
+			muteButton: muteButtonPreset = true,
+			volumeRangeButton: volumeRangeButtonPreset = true,
+			timeDisplay: timeDisplayPreset = true,
+			timeRange: timeRangePreset = true,
+			playbackRateButton: playbackRateButtonPreset = true,
+			fullscreenButton: fullscreenButtonPreset = true,
+			airplayButton: airplayButtonPreset = false,
+		} = {},
 	} = settings;
 
+	const isControlsEnabled = controlsSetting && (controls ?? controlsPreset);
+
+	console.log(controlsSetting);
+	console.log(controlsPreset);
 
 	return (
 		<InspectorControls>
@@ -72,7 +92,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 					<PanelRow>
 						<ToggleControl
 							label={__('Muted', 'wp-media-chrome')}
-							checked={muted}
+							checked={muted ?? mutedPreset}
 							onChange={(value) => setAttributes({ muted: value })}
 							__nextHasNoMarginBottom
 						/>
@@ -82,7 +102,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 					<PanelRow>
 						<ToggleControl
 							label={__('Playback controls', 'wp-media-chrome')}
-							checked={controls}
+							checked={controls ?? controlsPreset}
 							onChange={(value) => setAttributes({ controls: value })}
 							__nextHasNoMarginBottom
 						/>
@@ -92,7 +112,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 					<PanelRow>
 						<ToggleControl
 							label={__('Play inline', 'wp-media-chrome')}
-							checked={playsInline}
+							checked={playsInline ?? playsInlinePreset}
 							onChange={(value) => setAttributes({ playsInline: value })}
 							help={__(
 								'When enabled, videos will play directly within the webpage on mobile browsers, instead of opening in a fullscreen player.',
@@ -105,7 +125,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 					<PanelRow>
 						<SelectControl
 							label={__('Preload')}
-							value={preload}
+							value={preload ?? preloadPreset}
 							onChange={(value) => setAttributes({ preload: value })}
 							options={[
 								{ value: 'auto', label: __('Auto') },
@@ -113,7 +133,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 								{ value: 'none', label: _x('None', 'Preload value') },
 							]}
 							hideCancelButton
-							__next40pxDefaultSize
+							__next40pxPresetSize
 							__nextHasNoMarginBottom
 						/>
 					</PanelRow>
@@ -121,14 +141,14 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 				{posterSetting && (
 					<PanelRow>
 						<PosterImage
-							poster={poster}
+							poster={poster ?? posterPreset}
 							setAttributes={setAttributes}
 							instanceId={instanceId}
 						/>
 					</PanelRow>
 				)}
 			</PanelBody>
-			{controlsSetting && controls && (
+			{isControlsEnabled && (
 				<PanelBody
 					title={__('Media Chrome — Controls', 'wp-media-chrome')}
 					initialOpen={false}
@@ -137,7 +157,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						<PanelRow>
 							<RangeControl
 								label={__('Autohide', 'wp-media-chrome')}
-								value={autohide}
+								value={autohide ?? autohidePreset}
 								onChange={(value) => setAttributes({ autohide: value })}
 								min={-1}
 								max={60}
@@ -153,8 +173,8 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						<PanelRow>
 							<ToggleControl
 								label={__('Display play button', 'wp-media-chrome')}
-								checked={!!displayPlayButton}
-								onChange={(value) => setAttributes({ displayPlayButton: value })}
+								checked={playButton ?? playButtonPreset}
+								onChange={(value) => setAttributes({ playButton: value })}
 								__nextHasNoMarginBottom
 							/>
 						</PanelRow>
@@ -163,10 +183,8 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						<PanelRow>
 							<ToggleControl
 								label={__('Display seek backward button', 'wp-media-chrome')}
-								checked={!!displaySeekBackwardButton}
-								onChange={(value) =>
-									setAttributes({ displaySeekBackwardButton: value })
-								}
+								checked={seekBackwardButton ?? seekBackwardButtonPreset}
+								onChange={(value) => setAttributes({ seekBackwardButton: value })}
 								__nextHasNoMarginBottom
 							/>
 						</PanelRow>
@@ -175,10 +193,8 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						<PanelRow>
 							<ToggleControl
 								label={__('Display seek forward button', 'wp-media-chrome')}
-								checked={!!displaySeekForwardButton}
-								onChange={(value) =>
-									setAttributes({ displaySeekForwardButton: value })
-								}
+								checked={seekForwardButton ?? seekForwardButtonPreset}
+								onChange={(value) => setAttributes({ seekForwardButton: value })}
 								__nextHasNoMarginBottom
 							/>
 						</PanelRow>
@@ -187,8 +203,8 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						<PanelRow>
 							<ToggleControl
 								label={__('Display mute button', 'wp-media-chrome')}
-								checked={!!displayMuteButton}
-								onChange={(value) => setAttributes({ displayMuteButton: value })}
+								checked={muteButton ?? muteButtonPreset}
+								onChange={(value) => setAttributes({ muteButton: value })}
 								__nextHasNoMarginBottom
 							/>
 						</PanelRow>
@@ -197,8 +213,8 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						<PanelRow>
 							<ToggleControl
 								label={__('Display volume range', 'wp-media-chrome')}
-								checked={!!displayVolumeRange}
-								onChange={(value) => setAttributes({ displayVolumeRange: value })}
+								checked={volumeRange ?? volumeRangeButtonPreset}
+								onChange={(value) => setAttributes({ volumeRange: value })}
 								__nextHasNoMarginBottom
 							/>
 						</PanelRow>
@@ -206,17 +222,19 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 					{timeDisplaySetting && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display time display', 'wp-media-chrome')}
-								checked={!!displayTimeDisplay}
-								onChange={(value) => setAttributes({ displayTimeDisplay: value })}
+								label={__('Display time ', 'wp-media-chrome')}
+								checked={timeDisplay ?? timeDisplayPreset}
+								onChange={(value) => setAttributes({ timeDisplay: value })}
 								__nextHasNoMarginBottom
 							/>
 						</PanelRow>
+					)}
+					{timeRangeSetting && (
 						<PanelRow>
 							<ToggleControl
 								label={__('Display time range', 'wp-media-chrome')}
-								checked={!!displayTimeRange}
-								onChange={(value) => setAttributes({ displayTimeRange: value })}
+								checked={timeRange ?? timeRangePreset}
+								onChange={(value) => setAttributes({ timeRange: value })}
 								__nextHasNoMarginBottom
 							/>
 						</PanelRow>
@@ -225,10 +243,8 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						<PanelRow>
 							<ToggleControl
 								label={__('Display playback rate button', 'wp-media-chrome')}
-								checked={!!displayPlaybackRateButton}
-								onChange={(value) =>
-									setAttributes({ displayPlaybackRateButton: value })
-								}
+								checked={playbackRateButton ?? playbackRateButtonPreset}
+								onChange={(value) => setAttributes({ playbackRateButton: value })}
 								__nextHasNoMarginBottom
 							/>
 						</PanelRow>
@@ -237,10 +253,8 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						<PanelRow>
 							<ToggleControl
 								label={__('Display fullscreen button', 'wp-media-chrome')}
-								checked={!!displayFullscreenButton}
-								onChange={(value) =>
-									setAttributes({ displayFullscreenButton: value })
-								}
+								checked={fullscreenButton ?? fullscreenButtonPreset}
+								onChange={(value) => setAttributes({ fullscreenButton: value })}
 								__nextHasNoMarginBottom
 							/>
 						</PanelRow>
@@ -249,8 +263,8 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 						<PanelRow>
 							<ToggleControl
 								label={__('Display airplay button', 'wp-media-chrome')}
-								checked={!!displayAirplayButton}
-								onChange={(value) => setAttributes({ displayAirplayButton: value })}
+								checked={airplayButton ?? airplayButtonPreset}
+								onChange={(value) => setAttributes({ airplayButton: value })}
 								help={__(
 									'Note: AirPlay is only available in Safari browsers.',
 									'wp-media-chrome',

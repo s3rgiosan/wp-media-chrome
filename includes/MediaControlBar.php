@@ -102,7 +102,7 @@ class MediaControlBar {
 		return [
 			'media-play-button'          => [
 				'default_value' => true,
-				'block_attr'    => 'displayPlayButton',
+				'block_attr'    => 'showPlayButton',
 				'slots'         => [
 					'play'  => '',
 					'pause' => '',
@@ -111,21 +111,21 @@ class MediaControlBar {
 			],
 			'media-seek-backward-button' => [
 				'default_value' => true,
-				'block_attr'    => 'displaySeekBackwardButton',
+				'block_attr'    => 'showSeekBackwardButton',
 				'slots'         => [
 					'icon' => '',
 				],
 			],
 			'media-seek-forward-button'  => [
 				'default_value' => true,
-				'block_attr'    => 'displaySeekForwardButton',
+				'block_attr'    => 'showSeekForwardButton',
 				'slots'         => [
 					'icon' => '',
 				],
 			],
 			'media-mute-button'          => [
 				'default_value' => true,
-				'block_attr'    => 'displayMuteButton',
+				'block_attr'    => 'showMuteButton',
 				'slots'         => [
 					'off'    => '',
 					'low'    => '',
@@ -136,18 +136,18 @@ class MediaControlBar {
 			],
 			'media-volume-range'         => [
 				'default_value' => true,
-				'block_attr'    => 'displayVolumeRange',
+				'block_attr'    => 'showVolumeRange',
 				'slots'         => [
 					'thumb' => '',
 				],
 			],
 			'media-time-display'         => [
 				'default_value' => true,
-				'block_attr'    => 'displayTimeDisplay',
+				'block_attr'    => 'showTimeDisplay',
 			],
 			'media-time-range'           => [
 				'default_value' => true,
-				'block_attr'    => 'displayTimeRange',
+				'block_attr'    => 'showTimeRange',
 				'slots'         => [
 					'preview'       => '',
 					'preview-arrow' => '',
@@ -157,7 +157,7 @@ class MediaControlBar {
 			],
 			'media-captions-button'      => [
 				'default_value' => false,
-				'block_attr'    => 'displayCaptionsButton',
+				'block_attr'    => 'showCaptionsButton',
 				'slots'         => [
 					'on'   => '',
 					'off'  => '',
@@ -166,11 +166,11 @@ class MediaControlBar {
 			],
 			'media-playback-rate-button' => [
 				'default_value' => true,
-				'block_attr'    => 'displayPlaybackRateButton',
+				'block_attr'    => 'showPlaybackRateButton',
 			],
 			'media-pip-button'           => [
 				'default_value' => false,
-				'block_attr'    => 'displayPipButton',
+				'block_attr'    => 'showPipButton',
 				'slots'         => [
 					'enter' => '',
 					'exit'  => '',
@@ -179,7 +179,7 @@ class MediaControlBar {
 			],
 			'media-fullscreen-button'    => [
 				'default_value' => true,
-				'block_attr'    => 'displayFullscreenButton',
+				'block_attr'    => 'showFullscreenButton',
 				'slots'         => [
 					'enter' => '',
 					'exit'  => '',
@@ -188,7 +188,7 @@ class MediaControlBar {
 			],
 			'media-airplay-button'       => [
 				'default_value' => false,
-				'block_attr'    => 'displayAirplayButton',
+				'block_attr'    => 'showAirplayButton',
 				'slots'         => [
 					'enter' => '',
 					'exit'  => '',

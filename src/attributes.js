@@ -1,77 +1,51 @@
 const attributes = {
-	// Media Controller
 	autohide: {
 		type: 'integer',
-		default: 2,
 	},
 	muted: {
 		type: 'boolean',
-		default: false,
 	},
 	controls: {
 		type: 'boolean',
-		default: true,
 	},
 	playsInline: {
 		type: 'boolean',
-		default: false,
 	},
 	preload: {
 		type: 'string',
-		default: 'metadata',
 	},
 	poster: {
 		type: 'string',
-		default: '',
 	},
-	// Media Controls
-	displayPlayButton: {
+	playButton: {
 		type: 'boolean',
-		default: true,
 	},
-	displaySeekBackwardButton: {
+	seekBackwardButton: {
 		type: 'boolean',
-		default: true,
 	},
-	displaySeekForwardButton: {
+	seekForwardButton: {
 		type: 'boolean',
-		default: true,
 	},
-	displayMuteButton: {
+	muteButton: {
 		type: 'boolean',
-		default: true,
 	},
-	displayVolumeRange: {
+	volumeRange: {
 		type: 'boolean',
-		default: true,
 	},
-	displayTimeDisplay: {
+	timeDisplay: {
 		type: 'boolean',
-		default: true,
 	},
-	displayTimeRange: {
+	timeRange: {
 		type: 'boolean',
-		default: true,
 	},
-	// displayCaptionsButton: {
-	// 	type: 'boolean',
-	// 	default: false,
-	// },
-	displayPlaybackRateButton: {
+	playbackRateButton: {
 		type: 'boolean',
-		default: true,
 	},
-	// displayPipButton: {
-	// 	type: 'boolean',
-	// 	default: false,
-	// },
-	displayFullscreenButton: {
+	fullscreenButton: {
 		type: 'boolean',
-		default: true,
 	},
-	displayAirplayButton: {
+	airplayButton: {
 		type: 'boolean',
-		default: false,
 	},
 };
 
