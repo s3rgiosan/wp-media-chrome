@@ -32,9 +32,9 @@ class Plugin {
 	 * Setup hooks and register providers.
 	 */
 	public function setup() {
-		add_filter( 'render_block_core/embed', [ $this, 'render_embed_block' ], 10, 2 );
+		add_filter( 'render_block_core/embed', [ $this, 'render_embed_video_block' ], 10, 2 );
+		add_filter( 'enqueue_block_assets', [ $this, 'register_embed_video_block_assets' ] );
 		add_filter( 'block_type_metadata', [ $this, 'embed_block_type_metadata' ] );
-		add_filter( 'enqueue_block_assets', [ $this, 'register_embed_block_assets' ] );
 
 		// Register providers.
 		ProviderRegistry::register_provider( new Vimeo() );
@@ -43,13 +43,13 @@ class Plugin {
 	}
 
 	/**
-	 * Render Embed block.
+	 * Render Embed video block.
 	 *
 	 * @param  string $block_content The block content.
 	 * @param  array  $block         The full block, including name and attributes.
 	 * @return string The modified block content.
 	 */
-	public function render_embed_block( $block_content, $block ) {
+	public function render_embed_video_block( $block_content, $block ) {
 
 		if ( empty( $block['attrs']['type'] ) || 'video' !== $block['attrs']['type'] ) {
 			return $block_content;
@@ -79,10 +79,35 @@ class Plugin {
 				</div>
 			</figure>',
 			esc_attr( implode( ' ', $block_wrapper_classes ) ),
-			MediaController::generate_markup( $block['attrs'] )
+			MediaController::generate_markup( $block['attrs'], [ 'embed', 'video' ] )
 		);
 
 		return $block_content;
+	}
+
+	/**
+	 * Register Embed video block assets.
+	 *
+	 * @return void
+	 */
+	public function register_embed_video_block_assets() {
+
+		$scripts = [
+			'editor-script' => 'index',
+			'view-script'   => 'view',
+		];
+
+		foreach ( $scripts as $asset_handle => $filename ) {
+			$this->register_script( $asset_handle, 'embed-video', $filename );
+		}
+
+		$styles = [
+			'style' => 'index',
+		];
+
+		foreach ( $styles as $asset_handle => $filename ) {
+			$this->register_style( $asset_handle, 'embed-video', $filename );
+		}
 	}
 
 	/**
@@ -104,7 +129,10 @@ class Plugin {
 		$field_mappings = [
 			'editorScript' => 'editor-script',
 			'viewScript'   => 'view-script',
-			'style'        => 'style',
+			'style'        => [
+				'style',
+				'style-rtl',
+			],
 		];
 
 		foreach ( $field_mappings as $field_name => $asset_handle ) {
@@ -117,71 +145,95 @@ class Plugin {
 				$metadata[ $field_name ] = [ $metadata[ $field_name ] ];
 			}
 
-			$metadata[ $field_name ][] = "media-chrome-$asset_handle";
+			if ( is_array( $asset_handle ) ) {
+				foreach ( $asset_handle as $handle ) {
+					$metadata[ $field_name ][] = "media-chrome-$handle";
+				}
+			} else {
+				$metadata[ $field_name ][] = "media-chrome-$asset_handle";
+			}
 		}
 
 		return $metadata;
 	}
 
 	/**
-	 * Register Embed block assets.
+	 * Register a script.
 	 *
+	 * @param string $handle   The script handle.
+	 * @param string $path     The path to the script.
+	 * @param string $filename The script filename.
 	 * @return void
 	 */
-	public function register_embed_block_assets() {
+	public function register_script( $handle, $path, $filename ) {
 
-		$scripts = [
-			'editor-script' => 'index',
-			'view-script'   => 'view',
-		];
+		$asset_file = sprintf(
+			'%s/build/%s/%s.asset.php',
+			untrailingslashit( S3S_MEDIA_CHROME_PATH ),
+			$path,
+			$filename
+		);
 
-		foreach ( $scripts as $asset_handle => $filename ) {
+		$asset        = file_exists( $asset_file ) ? require $asset_file : null;
+		$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : [];
+		$version      = isset( $asset['version'] ) ? $asset['version'] : filemtime( $asset_file );
 
-			$asset_file = sprintf(
-				'%s/build/embed/%s.asset.php',
-				untrailingslashit( S3S_MEDIA_CHROME_PATH ),
+		wp_register_script(
+			"media-chrome-$handle",
+			sprintf(
+				'%s/build/%s/%s.js',
+				untrailingslashit( S3S_MEDIA_CHROME_URL ),
+				$path,
 				$filename
-			);
+			),
+			$dependencies,
+			$version,
+			true
+		);
+	}
 
-			$asset        = file_exists( $asset_file ) ? require $asset_file : null;
-			$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : [];
-			$version      = isset( $asset['version'] ) ? $asset['version'] : filemtime( $asset_file );
+	/**
+	 * Register a style.
+	 *
+	 * @param string $handle   The style handle.
+	 * @param string $path     The path to the style.
+	 * @param string $filename The style filename.
+	 * @return void
+	 */
+	public function register_style( $handle, $path, $filename ) {
 
-			wp_register_script(
-				"media-chrome-$asset_handle",
-				sprintf(
-					'%s/build/embed/%s.js',
-					untrailingslashit( S3S_MEDIA_CHROME_URL ),
-					$filename
-				),
-				$dependencies,
-				$version,
-				true
-			);
-		}
+		$asset_file = sprintf(
+			'%s/build/%s/%s.asset.php',
+			untrailingslashit( S3S_MEDIA_CHROME_PATH ),
+			$path,
+			$filename
+		);
 
-		$styles = [
-			'style' => 'style-index',
-		];
+		$asset   = file_exists( $asset_file ) ? require $asset_file : null;
+		$version = isset( $asset['version'] ) ? $asset['version'] : filemtime( $asset_file );
 
-		foreach ( $styles as $asset_handle => $filename ) {
-
-			$asset_file = sprintf(
-				'%s/build/embed/%s.css',
-				untrailingslashit( S3S_MEDIA_CHROME_PATH ),
+		wp_register_style(
+			"media-chrome-$handle",
+			sprintf(
+				'%s/build/%s/style-%s.css',
+				untrailingslashit( S3S_MEDIA_CHROME_URL ),
+				$path,
 				$filename
-			);
+			),
+			[],
+			$version
+		);
 
-			wp_register_style(
-				"media-chrome-$asset_handle",
-				sprintf(
-					'%s/build/embed/%s.css',
-					untrailingslashit( S3S_MEDIA_CHROME_URL ),
-					$filename
-				),
-				[],
-				filemtime( $asset_file )
-			);
-		}
+		wp_register_style(
+			"media-chrome-$handle-rtl",
+			sprintf(
+				'%s/build/%s/style-%s.css',
+				untrailingslashit( S3S_MEDIA_CHROME_URL ),
+				$path,
+				$filename
+			),
+			[],
+			$version
+		);
 	}
 }

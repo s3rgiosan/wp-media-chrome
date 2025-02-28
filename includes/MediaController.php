@@ -20,10 +20,11 @@ class MediaController {
 	/**
 	 * Generate the controller markup.
 	 *
-	 * @param  array $block_attrs The block attributes.
+	 * @param  array  $block_attrs The block attributes.
+	 * @param  string $path        The path to the block settings.
 	 * @return string The controller markup. Empty string if the provider is not found.
 	 */
-	public static function generate_markup( $block_attrs ) {
+	public static function generate_markup( $block_attrs, $path ) {
 
 		$provider_slug = $block_attrs['providerNameSlug'] ?? 'video';
 		$provider      = ProviderRegistry::get_provider( $provider_slug );
@@ -44,10 +45,10 @@ class MediaController {
 				%3$s
 				%4$s
 			</media-controller>',
-			self::get_attrs( $block_attrs ),
+			self::get_attrs( $block_attrs, $path ),
 			$provider_markup,
-			MediaPosterImage::generate_markup( $block_attrs ),
-			MediaControlBar::generate_markup( $block_attrs )
+			MediaPosterImage::generate_markup( $block_attrs, $path ),
+			MediaControlBar::generate_markup( $block_attrs, $path )
 		);
 
 		return $controller;
@@ -56,12 +57,13 @@ class MediaController {
 	/**
 	 * Get the controller attributes.
 	 *
-	 * @param  array $block_attrs The block attributes.
+	 * @param  array  $block_attrs The block attributes.
+	 * @param  string $path        The path to the block settings.
 	 * @return string The controller attributes as a string.
 	 */
-	protected static function get_attrs( $block_attrs ) {
+	protected static function get_attrs( $block_attrs, $path ) {
 
-		$global_settings = get_global_settings();
+		$global_settings = get_global_settings( $path );
 		$custom_settings = wp_parse_args( $block_attrs, $global_settings );
 
 		$attributes = array_intersect_key( $custom_settings, array_flip( self::$attributes ) );

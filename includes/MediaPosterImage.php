@@ -16,12 +16,13 @@ class MediaPosterImage {
 	/**
 	 * Generate the poster image markup.
 	 *
-	 * @param array $block_attrs Block attributes.
+	 * @param  array  $block_attrs Block attributes.
+	 * @param  string $path        The path to the block settings.
 	 * @return string The HTML markup for the poster image. Empty string if no poster image is set.
 	 */
-	public static function generate_markup( $block_attrs ) {
+	public static function generate_markup( $block_attrs, $path ) {
 
-		$global_settings = get_global_settings();
+		$global_settings = get_global_settings( $path );
 		$custom_settings = wp_parse_args( $block_attrs, $global_settings );
 
 		$attributes = array_intersect_key( $custom_settings, array_flip( self::$attributes ) );

@@ -62,31 +62,52 @@ function build_attrs( $attributes = [] ) {
  *
  * @return array The merged Media Chrome settings.
  */
-function get_global_settings() {
+function get_global_settings( $path ) {
 
-	$defaults = [
-		'autohide'           => 2,
-		'muted'              => false,
-		'controls'           => true,
-		'playsInline'        => false,
-		'preload'            => 'metadata',
-		'poster'             => '',
-		'playButton'         => true,
-		'seekBackwardButton' => true,
-		'seekForwardButton'  => true,
-		'muteButton'         => true,
-		'volumeRange'        => true,
-		'timeDisplay'        => true,
-		'timeRange'          => true,
-		'playbackRateButton' => true,
-		'fullscreenButton'   => true,
-		'airplayButton'      => false,
+	if ( empty( $path ) ) {
+		return [];
+	}
+
+	if ( ! is_array( $path ) ) {
+		$path = [ $path ];
+	}
+
+	$default_settings = [
+		'embed' => [
+			'video' => [
+				'autohide'           => 2,
+				'muted'              => false,
+				'controls'           => true,
+				'playsInline'        => false,
+				'preload'            => 'metadata',
+				'poster'             => '',
+				'playButton'         => true,
+				'seekBackwardButton' => true,
+				'seekForwardButton'  => true,
+				'muteButton'         => true,
+				'volumeRange'        => true,
+				'timeDisplay'        => true,
+				'timeRange'          => true,
+				'playbackRateButton' => true,
+				'fullscreenButton'   => true,
+				'airplayButton'      => false,
+			],
+		],
 	];
 
-	$presets = wp_get_global_settings( [ 'custom', 'mediaChrome', 'presets' ] );
+	$presets = wp_get_global_settings( array_merge( [ 'custom', 'mediaChrome', 'presets' ], $path ) );
 
-	if ( empty( $presets ) ) {
-		return $defaults;
+	$defaults = $default_settings;
+	foreach ( $path as $key ) {
+		if ( isset( $defaults[ $key ] ) ) {
+			$defaults = $defaults[ $key ];
+		} else {
+			return [];
+		}
+	}
+
+	if ( ! is_array( $defaults ) ) {
+		return [];
 	}
 
 	$settings = wp_parse_args( $presets, $defaults );

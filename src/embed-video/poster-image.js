@@ -1,13 +1,8 @@
-/* eslint-disable @wordpress/no-unsafe-wp-apis */
 /**
  * WordPress dependencies
  */
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import {
-	Button,
-	BaseControl,
-	__experimentalToolsPanelItem as ToolsPanelItem,
-} from '@wordpress/components';
+import { Button, BaseControl } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import { useRef } from '@wordpress/element';
 
