@@ -12,8 +12,6 @@ import {
 import { __, _x } from '@wordpress/i18n';
 import { useInstanceId } from '@wordpress/compose';
 
-const supportedProviders = ['youtube', 'vimeo', 'wistia'];
-
 /**
  * Internal dependencies
  */
@@ -21,7 +19,6 @@ import PosterImage from './poster-image';
 
 const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 	const {
-		providerNameSlug,
 		autohide,
 		muted,
 		controls,
@@ -43,10 +40,6 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 	const instanceId = useInstanceId(MediaChromeInspectorControls);
 
 	const [settings = {}] = useSettings('custom.mediaChrome') ?? [];
-
-	if (!supportedProviders.includes(providerNameSlug)) {
-		return null;
-	}
 
 	const {
 		ui: {
