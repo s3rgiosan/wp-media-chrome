@@ -40,26 +40,27 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 
 	const instanceId = useInstanceId(MediaChromeInspectorControls);
 
-	const [
-		{
-			muted: mutedSetting = true,
-			controls: controlsSetting = true,
-			playsInline: playsInlineSetting = true,
-			preload: preloadSetting = true,
-			poster: posterSetting = true,
-			autohide: autohideSetting = true,
-			playButton: playButtonSetting = true,
-			seekBackwardButton: seekBackwardButtonSetting = true,
-			seekForwardButton: seekForwardButtonSetting = true,
-			muteButton: muteButtonSetting = true,
-			volumeRange: volumeRangeSetting = true,
-			timeDisplay: timeDisplaySetting = true,
-			timeRange: timeRangeSetting = true,
-			playbackRateButton: playbackRateButtonSetting = true,
-			fullscreenButton: fullscreenButtonSetting = true,
-			airplayButton: airplayButtonSetting = true,
-		},
-	] = useSettings('custom.mediaChrome.ui.embed.video') ?? [];
+	const [settings] = useSettings('custom.mediaChrome.ui.embed.video') ?? [{}];
+
+	const {
+		muted: mutedSetting = true,
+		controls: controlsSetting = true,
+		playsInline: playsInlineSetting = true,
+		preload: preloadSetting = true,
+		poster: posterSetting = true,
+		autohide: autohideSetting = true,
+		playButton: playButtonSetting = true,
+		seekBackwardButton: seekBackwardButtonSetting = true,
+		seekForwardButton: seekForwardButtonSetting = true,
+		muteButton: muteButtonSetting = true,
+		volumeRange: volumeRangeSetting = true,
+		timeDisplay: timeDisplaySetting = true,
+		timeRange: timeRangeSetting = true,
+		playbackRateButton: playbackRateButtonSetting = true,
+		fullscreenButton: fullscreenButtonSetting = true,
+		airplayButton: airplayButtonSetting = true,
+	} = settings ?? {};
+
 	const [
 		{
 			autohide: autohidePreset = 2,
@@ -80,6 +81,10 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 			airplayButton: airplayButtonPreset = false,
 		},
 	] = useSettings('custom.mediaChrome.presets.embed.video') ?? [];
+
+	if (settings === false) {
+		return null;
+	}
 
 	const isControlsEnabled = controlsSetting && (controls ?? controlsPreset);
 
