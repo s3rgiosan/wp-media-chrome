@@ -1,8 +1,8 @@
-.wp-block-embed media-controller {
+.wp-block-embed.is-type-video media-controller {
 	max-width: 100%;
 }
 
-.wp-embed-responsive .wp-has-aspect-ratio media-controller {
+.wp-embed-responsive .wp-block-embed.is-type-video.wp-has-aspect-ratio media-controller {
 	bottom: 0;
 	height: 100%;
 	left: 0;
@@ -13,7 +13,7 @@
 }
 
 @supports (position: sticky) {
-	.wp-block-embed media-poster-image {
+	.wp-block-embed.is-type-video media-poster-image {
 		-o-object-fit:cover;
 		   object-fit:cover
 	}
