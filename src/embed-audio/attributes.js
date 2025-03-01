@@ -8,12 +8,6 @@ const attributes = {
 	preload: {
 		type: 'string',
 	},
-	playsInline: {
-		type: 'boolean',
-	},
-	poster: {
-		type: 'string',
-	},
 	autohide: {
 		type: 'integer',
 	},
@@ -26,25 +20,10 @@ const attributes = {
 	seekForwardButton: {
 		type: 'boolean',
 	},
-	muteButton: {
-		type: 'boolean',
-	},
-	volumeRange: {
-		type: 'boolean',
-	},
 	timeDisplay: {
 		type: 'boolean',
 	},
 	timeRange: {
-		type: 'boolean',
-	},
-	playbackRateButton: {
-		type: 'boolean',
-	},
-	fullscreenButton: {
-		type: 'boolean',
-	},
-	airplayButton: {
 		type: 'boolean',
 	},
 };

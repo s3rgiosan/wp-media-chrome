@@ -15,7 +15,7 @@ No setup required — just activate the plugin to enhance media blocks with bett
 | ✅   | [YouTube Embed](https://wordpress.org/documentation/article/youtube-embed/) |
 | ✅   | [Vimeo Embed](https://wordpress.org/documentation/article/vimeo-embed/)     |
 | ✅   | [Wistia Embed](https://github.com/s3rgiosan/wistia-embed-block)             |
-| 🚧   | [Spotify Embed](https://wordpress.org/documentation/article/spotify-embed/) |
+| ✅   | [Spotify Embed](https://wordpress.org/documentation/article/spotify-embed/) |
 | 🚧   | [Video](https://wordpress.org/documentation/article/video-block/)           |
 
 ## Requirements

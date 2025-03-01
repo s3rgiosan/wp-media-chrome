@@ -1,0 +1,3 @@
+.wp-embed-responsive .wp-block-embed-spotify.wp-has-aspect-ratio .wp-block-embed__wrapper::before {
+	content: none;
+}

@@ -2,6 +2,7 @@
 
 namespace S3S\WP\MediaChrome;
 
+use S3S\WP\MediaChrome\Provider\Spotify;
 use S3S\WP\MediaChrome\Provider\Vimeo;
 use S3S\WP\MediaChrome\Provider\Wistia;
 use S3S\WP\MediaChrome\Provider\YouTube;
@@ -32,14 +33,71 @@ class Plugin {
 	 * Setup hooks and register providers.
 	 */
 	public function setup() {
-		add_filter( 'render_block_core/embed', [ $this, 'render_embed_video_block' ], 10, 2 );
-		add_filter( 'enqueue_block_assets', [ $this, 'register_embed_video_block_assets' ] );
-		add_filter( 'block_type_metadata', [ $this, 'embed_block_type_metadata' ] );
+		add_filter( 'block_type_metadata', [ $this, 'update_embed_block_metadata' ] );
 
-		// Register providers.
+		// Register video providers.
 		ProviderRegistry::register_provider( new Vimeo() );
 		ProviderRegistry::register_provider( new Wistia() );
 		ProviderRegistry::register_provider( new YouTube() );
+
+		add_filter( 'render_block_core/embed', [ $this, 'render_embed_video_block' ], 10, 2 );
+		add_filter( 'enqueue_block_assets', [ $this, 'register_embed_video_block_assets' ] );
+
+		// Register audio providers.
+		ProviderRegistry::register_provider( new Spotify() );
+
+		add_filter( 'render_block_core/embed', [ $this, 'render_embed_audio_block' ], 10, 2 );
+		add_filter( 'enqueue_block_assets', [ $this, 'register_embed_audio_block_assets' ] );
+	}
+
+	/**
+	 * Updates the Embed block type metadata.
+	 *
+	 * @param  array $metadata Metadata for registering a block type.
+	 * @return array
+	 */
+	public function update_embed_block_metadata( $metadata ) {
+
+		if ( empty( $metadata['name'] ) || 'core/embed' !== $metadata['name'] ) {
+			return $metadata;
+		}
+
+		$field_mappings = [
+			'editorScript' => 'editor-script',
+			'viewScript'   => 'view-script',
+			'style'        => [
+				'style',
+				'style-rtl',
+			],
+		];
+
+		$variations = [
+			'embed-video',
+			'embed-audio',
+		];
+
+		foreach ( $variations as $variation ) {
+			foreach ( $field_mappings as $field_name => $asset_handle ) {
+
+				if ( ! isset( $metadata[ $field_name ] ) ) {
+					$metadata[ $field_name ] = [];
+				}
+
+				if ( ! is_array( $metadata[ $field_name ] ) ) {
+					$metadata[ $field_name ] = [ $metadata[ $field_name ] ];
+				}
+
+				if ( is_array( $asset_handle ) ) {
+					foreach ( $asset_handle as $handle ) {
+						$metadata[ $field_name ][] = "media-chrome-$variation-$handle";
+					}
+				} else {
+					$metadata[ $field_name ][] = "media-chrome-$variation-$asset_handle";
+				}
+			}
+		}
+
+		return $metadata;
 	}
 
 	/**
@@ -98,7 +156,7 @@ class Plugin {
 		];
 
 		foreach ( $scripts as $asset_handle => $filename ) {
-			$this->register_script( $asset_handle, 'embed-video', $filename );
+			$this->register_script( 'embed-video', $asset_handle, $filename );
 		}
 
 		$styles = [
@@ -106,71 +164,92 @@ class Plugin {
 		];
 
 		foreach ( $styles as $asset_handle => $filename ) {
-			$this->register_style( $asset_handle, 'embed-video', $filename );
+			$this->register_style( 'embed-video', $asset_handle, $filename );
 		}
 	}
 
 	/**
-	 * Updates the Embed block type metadata.
+	 * Render Embed audio block.
 	 *
-	 * @param  array $metadata Metadata for registering a block type.
-	 * @return array
+	 * @param  string $block_content The block content.
+	 * @param  array  $block         The full block, including name and attributes.
+	 * @return string The modified block content.
 	 */
-	public function embed_block_type_metadata( $metadata ) {
+	public function render_embed_audio_block( $block_content, $block ) {
 
-		if ( empty( $metadata['name'] ) ) {
-			return $metadata;
+		if ( empty( $block['attrs']['type'] ) || 'rich' !== $block['attrs']['type'] ) {
+			return $block_content;
 		}
 
-		if ( 'core/embed' !== $metadata['name'] ) {
-			return $metadata;
+		$provider_slug = 'rich';
+		if ( ! empty( $block['attrs']['providerNameSlug'] ) ) {
+			$provider_slug = $block['attrs']['providerNameSlug'];
 		}
 
-		$field_mappings = [
-			'editorScript' => 'editor-script',
-			'viewScript'   => 'view-script',
-			'style'        => [
-				'style',
-				'style-rtl',
-			],
+		if ( ! ProviderRegistry::has_provider( $provider_slug ) ) {
+			return $block_content;
+		}
+
+		$block_wrapper_classes = [
+			'wp-block-embed',
+			'is-type-rich',
+			'is-provider-' . $provider_slug,
+			'wp-block-embed-' . $provider_slug,
+			$block['attrs']['className'] ?? '',
 		];
 
-		foreach ( $field_mappings as $field_name => $asset_handle ) {
+		$block_content = sprintf(
+			'<figure class="%1$s">
+				<div class="wp-block-embed__wrapper">
+					%2$s
+				</div>
+			</figure>',
+			esc_attr( implode( ' ', $block_wrapper_classes ) ),
+			MediaController::generate_markup( $block['attrs'], [ 'embed', 'audio' ] )
+		);
 
-			if ( ! isset( $metadata[ $field_name ] ) ) {
-				$metadata[ $field_name ] = [];
-			}
+		return $block_content;
+	}
 
-			if ( ! is_array( $metadata[ $field_name ] ) ) {
-				$metadata[ $field_name ] = [ $metadata[ $field_name ] ];
-			}
+	/**
+	 * Register Embed audio block assets.
+	 *
+	 * @return void
+	 */
+	public function register_embed_audio_block_assets() {
 
-			if ( is_array( $asset_handle ) ) {
-				foreach ( $asset_handle as $handle ) {
-					$metadata[ $field_name ][] = "media-chrome-$handle";
-				}
-			} else {
-				$metadata[ $field_name ][] = "media-chrome-$asset_handle";
-			}
+		$scripts = [
+			'editor-script' => 'index',
+			'view-script'   => 'view',
+		];
+
+		foreach ( $scripts as $asset_handle => $filename ) {
+			$this->register_script( 'embed-audio', $asset_handle, $filename );
 		}
 
-		return $metadata;
+		$styles = [
+			'style' => 'index',
+		];
+
+		foreach ( $styles as $asset_handle => $filename ) {
+			$this->register_style( 'embed-audio', $asset_handle, $filename );
+		}
 	}
 
 	/**
 	 * Register a script.
 	 *
-	 * @param string $handle   The script handle.
-	 * @param string $path     The path to the script.
-	 * @param string $filename The script filename.
+	 * @param  string $block_name The block name.
+	 * @param  string $handle     The script handle.
+	 * @param  string $filename   The script filename.
 	 * @return void
 	 */
-	public function register_script( $handle, $path, $filename ) {
+	public function register_script( $block_name, $handle, $filename ) {
 
 		$asset_file = sprintf(
 			'%s/build/%s/%s.asset.php',
 			untrailingslashit( S3S_MEDIA_CHROME_PATH ),
-			$path,
+			$block_name,
 			$filename
 		);
 
@@ -179,11 +258,11 @@ class Plugin {
 		$version      = isset( $asset['version'] ) ? $asset['version'] : filemtime( $asset_file );
 
 		wp_register_script(
-			"media-chrome-$handle",
+			"media-chrome-$block_name-$handle",
 			sprintf(
 				'%s/build/%s/%s.js',
 				untrailingslashit( S3S_MEDIA_CHROME_URL ),
-				$path,
+				$block_name,
 				$filename
 			),
 			$dependencies,
@@ -195,17 +274,17 @@ class Plugin {
 	/**
 	 * Register a style.
 	 *
-	 * @param string $handle   The style handle.
-	 * @param string $path     The path to the style.
-	 * @param string $filename The style filename.
+	 * @param  string $block_name The block name.
+	 * @param  string $handle     The style handle.
+	 * @param  string $filename   The style filename.
 	 * @return void
 	 */
-	public function register_style( $handle, $path, $filename ) {
+	public function register_style( $block_name, $handle, $filename ) {
 
 		$asset_file = sprintf(
 			'%s/build/%s/%s.asset.php',
 			untrailingslashit( S3S_MEDIA_CHROME_PATH ),
-			$path,
+			$block_name,
 			$filename
 		);
 
@@ -213,11 +292,11 @@ class Plugin {
 		$version = isset( $asset['version'] ) ? $asset['version'] : filemtime( $asset_file );
 
 		wp_register_style(
-			"media-chrome-$handle",
+			"media-chrome-$block_name-$handle",
 			sprintf(
 				'%s/build/%s/style-%s.css',
 				untrailingslashit( S3S_MEDIA_CHROME_URL ),
-				$path,
+				$block_name,
 				$filename
 			),
 			[],
@@ -225,11 +304,11 @@ class Plugin {
 		);
 
 		wp_register_style(
-			"media-chrome-$handle-rtl",
+			"media-chrome-$block_name-$handle-rtl",
 			sprintf(
 				'%s/build/%s/style-%s.css',
 				untrailingslashit( S3S_MEDIA_CHROME_URL ),
-				$path,
+				$block_name,
 				$filename
 			),
 			[],

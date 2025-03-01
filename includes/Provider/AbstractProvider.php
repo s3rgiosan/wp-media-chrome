@@ -5,6 +5,13 @@ namespace S3S\WP\MediaChrome\Provider;
 abstract class AbstractProvider {
 
 	/**
+	 * The provider type.
+	 *
+	 * @var string
+	 */
+	public $provider_type = '';
+
+	/**
 	 * The provider slug.
 	 *
 	 * @var string
@@ -25,6 +32,15 @@ abstract class AbstractProvider {
 	 * @return string The provider HTML markup.
 	 */
 	abstract public function get_markup( $url );
+
+	/**
+	 * Get the provider type.
+	 *
+	 * @return string The provider type.
+	 */
+	public function get_type() {
+		return $this->provider_type;
+	}
 
 	/**
 	 * Get the provider slug.

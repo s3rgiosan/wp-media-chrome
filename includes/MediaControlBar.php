@@ -23,6 +23,24 @@ class MediaControlBar {
 	];
 
 	/**
+	 * The control bar component setting map.
+	 *
+	 * @var array
+	 */
+	public static $component_setting_map = [
+		'media-play-button'          => 'playButton',
+		'media-seek-backward-button' => 'seekBackwardButton',
+		'media-seek-forward-button'  => 'seekForwardButton',
+		'media-mute-button'          => 'muteButton',
+		'media-volume-range'         => 'volumeRange',
+		'media-time-display'         => 'timeDisplay',
+		'media-time-range'           => 'timeRange',
+		'media-playback-rate-button' => 'playbackRateButton',
+		'media-fullscreen-button'    => 'fullscreenButton',
+		'media-airplay-button'       => 'airplayButton',
+	];
+
+	/**
 	 * Generate the control bar markup.
 	 *
 	 * @param  array  $block_attrs Block attributes.
@@ -40,17 +58,15 @@ class MediaControlBar {
 
 		$attributes = array_intersect_key( $custom_settings, array_flip( self::$attributes ) );
 
-		$components = self::get_components();
-
 		/**
-		 * Filters the allowed components to display in the control bar.
+		 * Filters the components to display in the control bar.
 		 *
-		 * @param  array $allowed_components An array of allowed components. The keys are the component tags.
+		 * @param  array $components An array of components.
 		 * @return array An array of allowed components.
 		 */
-		$allowed_components = apply_filters( 's3s_media_chrome_control_bar_allowed_components', array_keys( $components ) );
+		$components = apply_filters( 's3s_media_chrome_control_bar_allowed_components', self::get_components() );
 
-		if ( empty( $allowed_components ) ) {
+		if ( empty( $components ) ) {
 			return '';
 		}
 
@@ -64,21 +80,29 @@ class MediaControlBar {
 
 		$control_bar = '<media-control-bar>';
 
-		foreach ( $components as $tag => $component ) {
+		foreach ( $components as $component_tag => $component_data ) {
 
-			if ( ! in_array( $tag, $allowed_components, true ) ) {
+			// Check if the component is supported.
+			if ( ! array_key_exists( $component_tag, self::$component_setting_map ) ) {
 				continue;
 			}
 
-			if ( false === $attributes[ $component['setting'] ] ) {
+			$setting = self::$component_setting_map[ $component_tag ];
+
+			if ( ! isset( $attributes[ $setting ] ) ) {
+				continue;
+			}
+
+			// Check if the component is enabled.
+			if ( false === $attributes[ $setting ] ) {
 				continue;
 			}
 
 			$parsed_slots = '';
 
-			if ( isset( $component['slots'] ) && is_array( $component['slots'] ) ) {
+			if ( isset( $component_data['slots'] ) && is_array( $component_data['slots'] ) ) {
 
-				$filter_tag = str_replace( '-', '_', $tag );
+				$filter_component_tag = str_replace( '-', '_', $component_tag );
 
 				/**
 				 * Filters the slots for the control bar component.
@@ -87,12 +111,12 @@ class MediaControlBar {
 				 * @param  array $block_attrs The block attributes.
 				 * @return array An array of slots.
 				 */
-				$slots = apply_filters( "s3s_media_chrome_control_bar_{$filter_tag}_slots", $component['slots'], $block_attrs );
+				$slots = apply_filters( "s3s_media_chrome_control_bar_{$filter_component_tag}_slots", $component_data['slots'], $block_attrs );
 
 				if ( ! empty( $slots ) && is_array( $slots ) ) {
 					foreach ( $slots as $slot_key => $slot_content ) {
 
-						if ( ! isset( $component['slots'][ $slot_key ] ) || empty( $slot_content ) ) {
+						if ( ! isset( $component_data['slots'][ $slot_key ] ) || empty( $slot_content ) ) {
 							continue;
 						}
 
@@ -105,7 +129,7 @@ class MediaControlBar {
 				}
 			}
 
-			$control_bar .= sprintf( '<%1$s>%2$s</%1$s>', $tag, $parsed_slots );
+			$control_bar .= sprintf( '<%1$s>%2$s</%1$s>', $component_tag, $parsed_slots );
 		}
 
 		$control_bar .= '</media-control-bar>';
@@ -121,28 +145,24 @@ class MediaControlBar {
 	protected static function get_components() {
 		return [
 			'media-play-button'          => [
-				'setting' => 'playButton',
-				'slots'   => [
+				'slots' => [
 					'play'  => '',
 					'pause' => '',
 					'icon'  => '',
 				],
 			],
 			'media-seek-backward-button' => [
-				'setting' => 'seekBackwardButton',
-				'slots'   => [
+				'slots' => [
 					'icon' => '',
 				],
 			],
 			'media-seek-forward-button'  => [
-				'setting' => 'seekForwardButton',
-				'slots'   => [
+				'slots' => [
 					'icon' => '',
 				],
 			],
 			'media-mute-button'          => [
-				'setting' => 'muteButton',
-				'slots'   => [
+				'slots' => [
 					'off'    => '',
 					'low'    => '',
 					'medium' => '',
@@ -151,37 +171,29 @@ class MediaControlBar {
 				],
 			],
 			'media-volume-range'         => [
-				'setting' => 'volumeRange',
-				'slots'   => [
+				'slots' => [
 					'thumb' => '',
 				],
 			],
-			'media-time-display'         => [
-				'setting' => 'timeDisplay',
-			],
+			'media-time-display'         => [],
 			'media-time-range'           => [
-				'setting' => 'timeRange',
-				'slots'   => [
+				'slots' => [
 					'preview'       => '',
 					'preview-arrow' => '',
 					'current'       => '',
 					'thumb'         => '',
 				],
 			],
-			'media-playback-rate-button' => [
-				'setting' => 'playbackRateButton',
-			],
+			'media-playback-rate-button' => [],
 			'media-fullscreen-button'    => [
-				'setting' => 'fullscreenButton',
-				'slots'   => [
+				'slots' => [
 					'enter' => '',
 					'exit'  => '',
 					'icon'  => '',
 				],
 			],
 			'media-airplay-button'       => [
-				'setting' => 'airplayButton',
-				'slots'   => [
+				'slots' => [
 					'enter' => '',
 					'exit'  => '',
 					'icon'  => '',

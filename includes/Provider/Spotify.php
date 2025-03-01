@@ -4,24 +4,24 @@ namespace S3S\WP\MediaChrome\Provider;
 
 use function S3S\WP\MediaChrome\build_attrs;
 
-class YouTube extends AbstractProvider {
+class Spotify extends AbstractProvider {
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public $provider_type = 'video';
+	public $provider_type = 'audio';
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public $provider_slug = 'youtube';
+	public $provider_slug = 'spotify';
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function get_markup( $url ) {
 		return sprintf(
-			'<youtube-video src="%1$s" slot="media" %2$s></youtube-video>',
+			'<spotify-audio src="%1$s" slot="media" %2$s></spotify-audio>',
 			esc_url( $url ),
 			build_attrs( $this->get_attrs() )
 		);

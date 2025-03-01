@@ -9,6 +9,11 @@ class Wistia extends AbstractProvider {
 	/**
 	 * {@inheritDoc}
 	 */
+	public $provider_type = 'video';
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public $provider_slug = 'wistia';
 
 	/**

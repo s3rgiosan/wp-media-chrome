@@ -75,12 +75,12 @@ function get_global_settings( $path ) {
 	$default_settings = [
 		'embed' => [
 			'video' => [
-				'autohide'           => 2,
 				'muted'              => false,
 				'controls'           => true,
-				'playsInline'        => false,
 				'preload'            => 'metadata',
+				'playsInline'        => false,
 				'poster'             => '',
+				'autohide'           => 2,
 				'playButton'         => true,
 				'seekBackwardButton' => true,
 				'seekForwardButton'  => true,
@@ -91,6 +91,17 @@ function get_global_settings( $path ) {
 				'playbackRateButton' => true,
 				'fullscreenButton'   => true,
 				'airplayButton'      => false,
+			],
+			'audio' => [
+				'muted'              => false,
+				'controls'           => true,
+				'preload'            => 'metadata',
+				'autohide'           => 2,
+				'playButton'         => true,
+				'seekBackwardButton' => true,
+				'seekForwardButton'  => true,
+				'timeDisplay'        => true,
+				'timeRange'          => true,
 			],
 		],
 	];

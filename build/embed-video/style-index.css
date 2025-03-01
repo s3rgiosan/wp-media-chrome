@@ -1,8 +1,12 @@
-.wp-block-embed.is-type-video media-controller {
+.wp-block-embed-vimeo media-controller,
+.wp-block-embed-wistia media-controller,
+.wp-block-embed-youtube media-controller {
 	max-width: 100%;
 }
 
-.wp-embed-responsive .wp-block-embed.is-type-video.wp-has-aspect-ratio media-controller {
+.wp-embed-responsive .wp-block-embed-vimeo.wp-has-aspect-ratio media-controller,
+.wp-embed-responsive .wp-block-embed-wistia.wp-has-aspect-ratio media-controller,
+.wp-embed-responsive .wp-block-embed-youtube.wp-has-aspect-ratio media-controller {
 	bottom: 0;
 	height: 100%;
 	left: 0;
@@ -13,7 +17,9 @@
 }
 
 @supports (position: sticky) {
-	.wp-block-embed.is-type-video media-poster-image {
+	.wp-block-embed-vimeo media-poster-image,
+	.wp-block-embed-wistia media-poster-image,
+	.wp-block-embed-youtube media-poster-image {
 		-o-object-fit:cover;
 		   object-fit:cover
 	}

@@ -5,16 +5,28 @@ namespace S3S\WP\MediaChrome;
 class MediaController {
 
 	/**
-	 * The controller attributes.
+	 * The controller video attributes.
 	 *
 	 * @var array
 	 */
-	public static $attributes = [
-		'autohide',
+	public static $video_attributes = [
 		'muted',
 		'controls',
-		'playsInline',
 		'preload',
+		'playsInline',
+		'autohide',
+	];
+
+	/**
+	 * The controller audio attributes.
+	 *
+	 * @var array
+	 */
+	public static $audio_attributes = [
+		'muted',
+		'controls',
+		'preload',
+		'autohide',
 	];
 
 	/**
@@ -26,7 +38,11 @@ class MediaController {
 	 */
 	public static function generate_markup( $block_attrs, $path ) {
 
-		$provider_slug = $block_attrs['providerNameSlug'] ?? 'video';
+		if ( empty( $block_attrs['providerNameSlug'] ) ) {
+			return '';
+		}
+
+		$provider_slug = $block_attrs['providerNameSlug'];
 		$provider      = ProviderRegistry::get_provider( $provider_slug );
 
 		if ( empty( $provider ) ) {
@@ -40,12 +56,13 @@ class MediaController {
 		}
 
 		$controller = sprintf(
-			'<media-controller %1$s>
-				%2$s
+			'<media-controller %1$s %2$s>
 				%3$s
 				%4$s
+				%5$s
 			</media-controller>',
 			self::get_attrs( $block_attrs, $path ),
+			esc_attr( $provider->get_type() ),
 			$provider_markup,
 			MediaPosterImage::generate_markup( $block_attrs, $path ),
 			MediaControlBar::generate_markup( $block_attrs, $path )
@@ -66,7 +83,14 @@ class MediaController {
 		$global_settings = get_global_settings( $path );
 		$custom_settings = wp_parse_args( $block_attrs, $global_settings );
 
-		$attributes = array_intersect_key( $custom_settings, array_flip( self::$attributes ) );
+		$attributes = [];
+		if ( 'video' === $block_attrs['type'] ) {
+			$attributes = self::$video_attributes;
+		} elseif ( 'rich' === $block_attrs['type'] ) {
+			$attributes = self::$audio_attributes;
+		}
+
+		$attributes = array_intersect_key( $custom_settings, array_flip( $attributes ) );
 
 		/**
 		 * Filters the controller attributes.
