@@ -115,27 +115,25 @@ Example video embed preset configuration for your `theme.json`:
   "settings": {
     "custom": {
       "mediaChrome": {
-        "embed": {
-          "presets": {
-            "embed": {
-              "video": {
-                "autohide": 2,
-                "muted": false,
-                "controls": true,
-                "playsInline": false,
-                "preload": "metadata",
-                "poster": "",
-                "playButton": true,
-                "seekBackwardButton": true,
-                "seekForwardButton": true,
-                "muteButton": true,
-                "volumeRange": true,
-                "timeDisplay": true,
-                "timeRange": true,
-                "playbackRateButton": true,
-                "fullscreenButton": true,
-                "airplayButton": false
-              }
+        "presets": {
+          "embed": {
+            "video": {
+              "autohide": 2,
+              "muted": false,
+              "controls": true,
+              "playsInline": false,
+              "preload": "metadata",
+              "poster": "",
+              "playButton": true,
+              "seekBackwardButton": true,
+              "seekForwardButton": true,
+              "muteButton": true,
+              "volumeRange": true,
+              "timeDisplay": true,
+              "timeRange": true,
+              "playbackRateButton": true,
+              "fullscreenButton": true,
+              "airplayButton": false
             }
           }
         }
