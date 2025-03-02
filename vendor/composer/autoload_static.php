@@ -33,6 +33,7 @@ class ComposerStaticInitad95e40ee0ed38d682e252d526ef2a83
         'S3S\\WP\\MediaChrome\\Plugin' => __DIR__ . '/../..' . '/includes/Plugin.php',
         'S3S\\WP\\MediaChrome\\ProviderRegistry' => __DIR__ . '/../..' . '/includes/ProviderRegistry.php',
         'S3S\\WP\\MediaChrome\\Provider\\AbstractProvider' => __DIR__ . '/../..' . '/includes/Provider/AbstractProvider.php',
+        'S3S\\WP\\MediaChrome\\Provider\\Spotify' => __DIR__ . '/../..' . '/includes/Provider/Spotify.php',
         'S3S\\WP\\MediaChrome\\Provider\\Vimeo' => __DIR__ . '/../..' . '/includes/Provider/Vimeo.php',
         'S3S\\WP\\MediaChrome\\Provider\\Wistia' => __DIR__ . '/../..' . '/includes/Provider/Wistia.php',
         'S3S\\WP\\MediaChrome\\Provider\\YouTube' => __DIR__ . '/../..' . '/includes/Provider/YouTube.php',

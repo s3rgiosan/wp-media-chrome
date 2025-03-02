@@ -13,6 +13,7 @@ return array(
     'S3S\\WP\\MediaChrome\\Plugin' => $baseDir . '/includes/Plugin.php',
     'S3S\\WP\\MediaChrome\\ProviderRegistry' => $baseDir . '/includes/ProviderRegistry.php',
     'S3S\\WP\\MediaChrome\\Provider\\AbstractProvider' => $baseDir . '/includes/Provider/AbstractProvider.php',
+    'S3S\\WP\\MediaChrome\\Provider\\Spotify' => $baseDir . '/includes/Provider/Spotify.php',
     'S3S\\WP\\MediaChrome\\Provider\\Vimeo' => $baseDir . '/includes/Provider/Vimeo.php',
     'S3S\\WP\\MediaChrome\\Provider\\Wistia' => $baseDir . '/includes/Provider/Wistia.php',
     'S3S\\WP\\MediaChrome\\Provider\\YouTube' => $baseDir . '/includes/Provider/YouTube.php',
