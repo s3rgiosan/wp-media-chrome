@@ -13,7 +13,7 @@ No setup required — just activate the plugin to enhance media blocks with bett
 * [YouTube Embed](https://wordpress.org/documentation/article/youtube-embed/)
 * [Vimeo Embed](https://wordpress.org/documentation/article/vimeo-embed/)
 * [Wistia Embed](https://github.com/s3rgiosan/wistia-embed-block)
-* [Spotify Embed (*)](https://wordpress.org/documentation/article/spotify-embed/)
+* [Spotify Embed](https://wordpress.org/documentation/article/spotify-embed/) (*)
 
 (*) **Spotify support is disabled by default** due to its limited customization options and UI.
 To enable it, see the [Spotify](#spotify) section below.
@@ -169,6 +169,7 @@ Default: `true`
 #### `playsInline`
 
 When enabled, videos play inline on mobile devices rather than opening in fullscreen.
+Only available for embed video blocks.
 
 Default: `false`
 
@@ -181,6 +182,7 @@ Default: `'metadata'`
 #### `poster`
 
 URL for the poster image displayed before playback starts.
+Only available for embed video blocks.
 
 Default: `''`
 
@@ -205,12 +207,14 @@ Default: `true`
 #### `muteButton`
 
 Whether to display the mute/unmute button.
+Only available for video blocks.
 
 Default: `true`
 
 #### `volumeRange`
 
 Whether to show the volume slider.
+Only available for video blocks.
 
 Default: `true`
 
@@ -229,24 +233,25 @@ Default: `true`
 #### `playbackRateButton`
 
 Whether to include a control for adjusting playback speed.
+Only available for video blocks.
 
 Default: `true`
 
 #### `fullscreenButton`
 
 Whether to display the fullscreen toggle button.
+Only available for video blocks.
 
 Default: `true`
 
 #### `airplayButton`
 
 Whether to display the AirPlay button (only supported in Safari).
+Only available for video blocks.
 
 Default: `false`
 
-## Audio
-
-### Spotify
+## Spotify
 
 **Spotify support is disabled by default.**
 To enable it, add the following:
