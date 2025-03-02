@@ -35,7 +35,7 @@ class MediaPosterImage {
 		 * @param  array  $custom_settings The custom settings.
 		 * @return array
 		 */
-		$attributes = apply_filters( 's3s_media_chrome_poster_image_attributes', $attributes, $block_attrs, $custom_settings );
+		$attributes = apply_filters( 'media_chrome_poster_image_attributes', $attributes, $block_attrs, $custom_settings );
 
 		if ( empty( $attributes['poster'] ) ) {
 			return '';

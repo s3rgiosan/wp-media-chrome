@@ -15,8 +15,11 @@ No setup required — just activate the plugin to enhance media blocks with bett
 | ✅   | [YouTube Embed](https://wordpress.org/documentation/article/youtube-embed/) |
 | ✅   | [Vimeo Embed](https://wordpress.org/documentation/article/vimeo-embed/)     |
 | ✅   | [Wistia Embed](https://github.com/s3rgiosan/wistia-embed-block)             |
-| ✅   | [Spotify Embed](https://wordpress.org/documentation/article/spotify-embed/) |
+| ✅(*) | [Spotify Embed](https://wordpress.org/documentation/article/spotify-embed/) |
 | 🚧   | [Video](https://wordpress.org/documentation/article/video-block/)           |
+
+(*) **Spotify support is disabled by default** due to its limited customization options and UI.
+To enable it, see the [Spotify](#spotify) section below.
 
 ## Requirements
 
@@ -47,7 +50,7 @@ composer require s3rgiosan/wp-media-chrome
 
 ## Quick Start
 
-Once activated, the plugin automatically improves supported media blocks. No additional setup is required.
+Once activated, the plugin automatically enhances supported media blocks. Customization is optional but available via the block editor settings or `theme.json`.
 
 To customize a media player:
 
@@ -61,7 +64,8 @@ To customize a media player:
 
 > What options users see in the editor.
 
-UI settings control which customization options are available in the block editor. These settings do not change how the media player behaves on the frontend — they only determine which settings users can modify in the editor.
+UI settings control which customization options appear in the block editor. They do not affect the media player's behavior on the frontend — only what users can modify.
+
 By default, all customization options are enabled.
 To limit available options, add the following to your `theme.json` (example shows all options enabled for the video embed block):
 
@@ -104,7 +108,7 @@ To limit available options, add the following to your `theme.json` (example show
 
 > What default values are used when no user preference is set.
 
-Preset settings define the default values for media player options when no user preference is set. If a user customizes a setting in the block editor, that value takes precedence over the preset. If no preset is defined in `theme.json`, the plugin uses its built-in defaults (listed in the [Options](#options) section).
+Preset settings define default values for media player options when no user preference is set. If a user customizes a setting in the block editor, that value takes precedence. If no preset is set in `theme.json`, the plugin uses built-in defaults (listed in [Options](#options)).
 
 Example video embed preset configuration for your `theme.json`:
 
@@ -242,6 +246,30 @@ Default: `true`
 Whether to display the AirPlay button (only supported in Safari).
 
 Default: `false`
+
+## Audio
+
+### Spotify
+
+**Spotify support is disabled by default.**
+To enable it, add the following:
+
+PHP (`functions.php` or a custom plugin)
+
+```php
+add_filter( 'media_chrome_providers_audio', function ( $providers ) {
+    $providers[] = S3S\WP\MediaChrome\Provider\Spotify::class;
+    return $providers;
+});
+```
+
+JavaScript (theme JavaScript file or a custom plugin)
+
+```js
+addFilter('mediaChrome.providers.audio', 'my-plugin/enable-spotify', (providers) => {
+  return [...providers, 'spotify'];
+});
+```
 
 ## Styling
 

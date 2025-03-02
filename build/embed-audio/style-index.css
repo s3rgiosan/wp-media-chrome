@@ -1,4 +1,4 @@
-.wp-embed-responsive .wp-block-embed-spotify.wp-has-aspect-ratio .wp-block-embed__wrapper::before {
+.wp-embed-responsive .wp-block-embed-spotify.wp-has-aspect-ratio.has-media-chrome .wp-block-embed__wrapper::before {
 	content: none;
 }
 

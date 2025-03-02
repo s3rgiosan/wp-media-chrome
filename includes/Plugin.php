@@ -2,7 +2,6 @@
 
 namespace S3S\WP\MediaChrome;
 
-use S3S\WP\MediaChrome\Provider\Spotify;
 use S3S\WP\MediaChrome\Provider\Vimeo;
 use S3S\WP\MediaChrome\Provider\Wistia;
 use S3S\WP\MediaChrome\Provider\YouTube;
@@ -33,21 +32,29 @@ class Plugin {
 	 * Setup hooks and register providers.
 	 */
 	public function setup() {
+		add_action( 'init', [ $this, 'register_providers' ] );
 		add_filter( 'block_type_metadata', [ $this, 'update_embed_block_metadata' ] );
-
-		// Register video providers.
-		ProviderRegistry::register_provider( new Vimeo() );
-		ProviderRegistry::register_provider( new Wistia() );
-		ProviderRegistry::register_provider( new YouTube() );
-
 		add_filter( 'render_block_core/embed', [ $this, 'render_embed_video_block' ], 10, 2 );
 		add_filter( 'enqueue_block_assets', [ $this, 'register_embed_video_block_assets' ] );
-
-		// Register audio providers.
-		ProviderRegistry::register_provider( new Spotify() );
-
 		add_filter( 'render_block_core/embed', [ $this, 'render_embed_audio_block' ], 10, 2 );
 		add_filter( 'enqueue_block_assets', [ $this, 'register_embed_audio_block_assets' ] );
+	}
+
+	/**
+	 * Register video and audio providers.
+	 *
+	 * @return void
+	 */
+	public function register_providers() {
+		// Register video providers.
+		foreach ( $this->get_enabled_video_providers() as $provider_class ) {
+			ProviderRegistry::register_provider( new $provider_class() );
+		}
+
+		// Register audio providers.
+		foreach ( $this->get_enabled_audio_providers() as $provider_class ) {
+			ProviderRegistry::register_provider( new $provider_class() );
+		}
 	}
 
 	/**
@@ -128,6 +135,7 @@ class Plugin {
 			'is-provider-' . $provider_slug,
 			'wp-block-embed-' . $provider_slug,
 			$block['attrs']['className'] ?? '',
+			'has-media-chrome',
 		];
 
 		$block_content = sprintf(
@@ -196,6 +204,7 @@ class Plugin {
 			'is-provider-' . $provider_slug,
 			'wp-block-embed-' . $provider_slug,
 			$block['attrs']['className'] ?? '',
+			'has-media-chrome',
 		];
 
 		$block_content = sprintf(
@@ -314,5 +323,45 @@ class Plugin {
 			[],
 			$version
 		);
+	}
+
+	/**
+	 * Get enabled video providers.
+	 *
+	 * @return array List of enabled video provider class names.
+	 */
+	protected function get_enabled_video_providers() {
+
+		$default_providers = [
+			Vimeo::class,
+			Wistia::class,
+			YouTube::class,
+		];
+
+		/**
+		 * Filters the enabled video providers.
+		 *
+		 * @param  array $default_providers List of default video providers.
+		 * @return array List of enabled video provider class names.
+		 */
+		return apply_filters( 'media_chrome_providers_video', $default_providers );
+	}
+
+	/**
+	 * Get enabled audio providers.
+	 *
+	 * @return array List of enabled audio provider class names.
+	 */
+	protected function get_enabled_audio_providers() {
+
+		$default_providers = [];
+
+		/**
+		 * Filters the enabled audio providers.
+		 *
+		 * @param  array $default_providers List of default audio providers.
+		 * @return array List of enabled audio provider class names.
+		 */
+		return apply_filters( 'media_chrome_providers_audio', $default_providers );
 	}
 }

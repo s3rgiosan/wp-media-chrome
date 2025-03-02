@@ -64,7 +64,7 @@ class MediaControlBar {
 		 * @param  array $components An array of components.
 		 * @return array An array of allowed components.
 		 */
-		$components = apply_filters( 's3s_media_chrome_control_bar_allowed_components', self::get_components() );
+		$components = apply_filters( 'media_chrome_control_bar_components', self::get_components() );
 
 		if ( empty( $components ) ) {
 			return '';
@@ -76,7 +76,7 @@ class MediaControlBar {
 		 * @param  array $allowed_tags An array of allowed HTML tags and attributes.
 		 * @return array An array of allowed HTML tags and attributes.
 		 */
-		$allowed_tags = apply_filters( 's3s_media_chrome_allowed_tags', [] );
+		$allowed_tags = apply_filters( 'media_chrome_allowed_tags', [] );
 
 		$control_bar = '<media-control-bar>';
 
@@ -111,7 +111,7 @@ class MediaControlBar {
 				 * @param  array $block_attrs The block attributes.
 				 * @return array An array of slots.
 				 */
-				$slots = apply_filters( "s3s_media_chrome_control_bar_{$filter_component_tag}_slots", $component_data['slots'], $block_attrs );
+				$slots = apply_filters( "media_chrome_control_bar_{$filter_component_tag}_slots", $component_data['slots'], $block_attrs );
 
 				if ( ! empty( $slots ) && is_array( $slots ) ) {
 					foreach ( $slots as $slot_key => $slot_content ) {
