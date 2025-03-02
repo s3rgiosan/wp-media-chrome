@@ -10,6 +10,8 @@
  * Author URI:        https://s3rgiosan.dev/?utm_source=wp-plugins&utm_medium=wp-media-chrome&utm_campaign=author-uri
  * License:           MIT
  * License URI:       https://opensource.org/license/mit/
+ * Update URI:        https://s3rgiosan.dev/
+ * GitHub Plugin URI: https://github.com/s3rgiosan/wp-media-chrome
  * Text Domain:       wp-media-chrome
  *
  * @package           MediaChrome
