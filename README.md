@@ -1,6 +1,6 @@
 # Media Chrome for Media Blocks
 
-> Enhance your audio and video blocks with custom web components from Media Chrome.
+> Enhance your video and audio blocks with custom web components from Media Chrome.
 
 ## Description
 
@@ -8,15 +8,12 @@ Media Chrome for Media Blocks brings the power of [Media Chrome](https://www.med
 It enhances built-in video and audio blocks with custom web components, improving player controls, accessibility, and user experience.
 No setup required — just activate the plugin to enhance media blocks with better controls, improved accessibility, and a modernized playback experience.
 
-## Supported Blocks
+## Supported Media Blocks
 
-|     | Block                                                                       |
-| --- | --------------------------------------------------------------------------- |
-| ✅   | [YouTube Embed](https://wordpress.org/documentation/article/youtube-embed/) |
-| ✅   | [Vimeo Embed](https://wordpress.org/documentation/article/vimeo-embed/)     |
-| ✅   | [Wistia Embed](https://github.com/s3rgiosan/wistia-embed-block)             |
-| ✅ (*) | [Spotify Embed](https://wordpress.org/documentation/article/spotify-embed/) |
-| 🚧   | [Video](https://wordpress.org/documentation/article/video-block/)           |
+* [YouTube Embed](https://wordpress.org/documentation/article/youtube-embed/)
+* [Vimeo Embed](https://wordpress.org/documentation/article/vimeo-embed/)
+* [Wistia Embed](https://github.com/s3rgiosan/wistia-embed-block)
+* [Spotify Embed (*)](https://wordpress.org/documentation/article/spotify-embed/)
 
 (*) **Spotify support is disabled by default** due to its limited customization options and UI.
 To enable it, see the [Spotify](#spotify) section below.

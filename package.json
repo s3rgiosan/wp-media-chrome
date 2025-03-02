@@ -1,7 +1,7 @@
 {
   "name": "wp-media-chrome",
   "version": "0.1.0",
-  "description": "Enhance your audio and video block embeds with custom web components from Media Chrome.",
+  "description": "Enhance your video and audio blocks with custom web components from Media Chrome.",
   "contributors": [
     {
       "name": "Sérgio Santos",
