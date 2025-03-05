@@ -21,7 +21,7 @@ To enable it, see the [Spotify](#spotify) section below.
 ## Requirements
 
 * PHP 7.4+
-* WordPress 6.4
+* WordPress 6.5
 
 ## Installation
 
