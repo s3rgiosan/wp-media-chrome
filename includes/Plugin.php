@@ -131,12 +131,21 @@ class Plugin {
 
 		$block_wrapper_classes = [
 			'wp-block-embed',
+			isset( $block['attrs']['align'] ) ? sprintf( 'align%s', $block['attrs']['align'] ) : '',
 			'is-type-video',
 			'is-provider-' . $provider_slug,
 			'wp-block-embed-' . $provider_slug,
-			$block['attrs']['className'] ?? '',
-			'has-media-chrome',
 		];
+
+		if ( ! empty( $block['attrs']['className'] ) ) {
+			$extra_classes         = explode( ' ', $block['attrs']['className'] );
+			$block_wrapper_classes = array_merge( $block_wrapper_classes, $extra_classes );
+		}
+
+		$block_wrapper_classes[] = 'has-media-chrome';
+
+		$block_wrapper_classes = array_filter( $block_wrapper_classes );
+		$block_wrapper_classes = array_map( 'sanitize_html_class', $block_wrapper_classes );
 
 		$block_content = sprintf(
 			'<figure class="%1$s">

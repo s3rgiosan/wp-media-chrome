@@ -5,7 +5,7 @@
  * Plugin URI:        https://github.com/s3rgiosan/wp-media-chrome
  * Requires at least: 6.7
  * Requires PHP:      7.4
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Sérgio Santos
  * Author URI:        https://s3rgiosan.dev/?utm_source=wp-plugins&utm_medium=wp-media-chrome&utm_campaign=author-uri
  * License:           MIT
