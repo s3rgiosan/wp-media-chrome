@@ -8,6 +8,11 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 - Update dependencies.
 
+### Fixed
+
+- Fix poster image selection.
+- Fix "Display time" label.
+
 ## [1.0.1] - 2025-05-30
 
 ### Fixed

@@ -172,7 +172,14 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 					<PanelRow>
 						<PosterImage
 							poster={poster ?? posterPreset}
-							setAttributes={updateAttribute}
+							setAttributes={(newValues) =>
+								updateAttribute(
+									newValues,
+									{ poster: posterPreset },
+									setAttributes,
+									attributes,
+								)
+							}
 							instanceId={instanceId}
 						/>
 					</PanelRow>
@@ -294,7 +301,7 @@ const MediaChromeInspectorControls = ({ attributes, setAttributes }) => {
 					{timeDisplaySetting && (
 						<PanelRow>
 							<ToggleControl
-								label={__('Display time ', 'wp-media-chrome')}
+								label={__('Display time', 'wp-media-chrome')}
 								checked={timeDisplay ?? timeDisplayPreset}
 								onChange={(value) =>
 									updateAttribute(
