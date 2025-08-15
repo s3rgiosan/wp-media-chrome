@@ -18,11 +18,6 @@ No setup required — just activate the plugin to enhance media blocks with bett
 (*) **Spotify support is disabled by default** due to its limited customization options and UI.
 To enable it, see the [Spotify](#spotify) section below.
 
-## Requirements
-
-* PHP 7.4+
-* WordPress 6.5
-
 ## Installation
 
 ### Manual Installation
