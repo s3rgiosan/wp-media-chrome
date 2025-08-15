@@ -41,6 +41,12 @@ class MediaPosterImage {
 			return '';
 		}
 
+		$attributes['src'] = null;
+		if ( isset( $attributes['poster'] ) ) {
+			$attributes['src'] = $attributes['poster'];
+			unset( $attributes['poster'] );
+		}
+
 		$poster_image = sprintf(
 			'<media-poster-image slot="poster" %1$s></media-poster-image>',
 			build_attrs( $attributes )

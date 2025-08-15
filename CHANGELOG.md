@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 ### Fixed
 
 - Fix poster image selection.
+- Fix `<media-poster-image>` component `src` attribute.
 - Fix "Display time" label.
 
 ## [1.0.1] - 2025-05-30
