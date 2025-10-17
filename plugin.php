@@ -13,8 +13,6 @@
  * Update URI:        https://s3rgiosan.dev/
  * GitHub Plugin URI: https://github.com/s3rgiosan/wp-media-chrome
  * Text Domain:       wp-media-chrome
- *
- * @package           MediaChrome
  */
 
 namespace S3S\WP\MediaChrome;
