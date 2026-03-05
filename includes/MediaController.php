@@ -75,7 +75,7 @@ class MediaController {
 	 * Get the controller attributes.
 	 *
 	 * @param  array  $block_attrs The block attributes.
-	 * @param  string $path        The path to the block settings.
+	 * @param  array  $path        The path to the block settings.
 	 * @return string The controller attributes as a string.
 	 */
 	protected static function get_attrs( $block_attrs, $path ) {

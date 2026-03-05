@@ -17,7 +17,7 @@ class MediaPosterImage {
 	 * Generate the poster image markup.
 	 *
 	 * @param  array  $block_attrs Block attributes.
-	 * @param  string $path        The path to the block settings.
+	 * @param  array  $path        The path to the block settings.
 	 * @return string The HTML markup for the poster image. Empty string if no poster image is set.
 	 */
 	public static function generate_markup( $block_attrs, $path ) {

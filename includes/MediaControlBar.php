@@ -44,7 +44,7 @@ class MediaControlBar {
 	 * Generate the control bar markup.
 	 *
 	 * @param  array  $block_attrs Block attributes.
-	 * @param  string $path        The path to the block settings.
+	 * @param  array  $path        The path to the block settings.
 	 * @return string The HTML markup for the media control bar. Empty string if the control bar is disabled.
 	 */
 	public static function generate_markup( $block_attrs, $path ) {
