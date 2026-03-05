@@ -14,7 +14,7 @@ import { applyFilters } from '@wordpress/hooks';
  */
 import './style.css';
 import additionalAttributes from './attributes.js';
-import MediaChromeInspectorControls from './inspector-controls.js';
+import MediaChromeInspectorControls from '../shared/inspector-controls.js';
 
 registerBlockExtension('core/embed', {
 	extensionName: 'wp-media-chrome',
@@ -32,7 +32,7 @@ registerBlockExtension('core/embed', {
 			return null;
 		}
 
-		return <MediaChromeInspectorControls {...props} />;
+		return <MediaChromeInspectorControls {...props} mediaType="video" />;
 	},
 	order: 'before',
 });
