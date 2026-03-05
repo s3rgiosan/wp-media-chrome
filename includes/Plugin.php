@@ -72,10 +72,7 @@ class Plugin {
 		$field_mappings = [
 			'editorScript' => 'editor-script',
 			'viewScript'   => 'view-script',
-			'style'        => [
-				'style',
-				'style-rtl',
-			],
+			'style'        => 'style',
 		];
 
 		$variations = [
@@ -209,12 +206,21 @@ class Plugin {
 
 		$block_wrapper_classes = [
 			'wp-block-embed',
+			isset( $block['attrs']['align'] ) ? sprintf( 'align%s', $block['attrs']['align'] ) : '',
 			'is-type-rich',
 			'is-provider-' . $provider_slug,
 			'wp-block-embed-' . $provider_slug,
-			$block['attrs']['className'] ?? '',
-			'has-media-chrome',
 		];
+
+		if ( ! empty( $block['attrs']['className'] ) ) {
+			$extra_classes         = explode( ' ', $block['attrs']['className'] );
+			$block_wrapper_classes = array_merge( $block_wrapper_classes, $extra_classes );
+		}
+
+		$block_wrapper_classes[] = 'has-media-chrome';
+
+		$block_wrapper_classes = array_filter( $block_wrapper_classes );
+		$block_wrapper_classes = array_map( 'sanitize_html_class', $block_wrapper_classes );
 
 		$block_content = sprintf(
 			'<figure class="%1$s">
@@ -272,8 +278,8 @@ class Plugin {
 		);
 
 		$asset        = file_exists( $asset_file ) ? require $asset_file : null;
-		$dependencies = isset( $asset['dependencies'] ) ? $asset['dependencies'] : [];
-		$version      = isset( $asset['version'] ) ? $asset['version'] : filemtime( $asset_file );
+		$dependencies = $asset['dependencies'] ?? [];
+		$version      = $asset['version'] ?? ( null !== $asset ? filemtime( $asset_file ) : false );
 
 		wp_register_script(
 			"media-chrome-$block_name-$handle",
@@ -307,22 +313,10 @@ class Plugin {
 		);
 
 		$asset   = file_exists( $asset_file ) ? require $asset_file : null;
-		$version = isset( $asset['version'] ) ? $asset['version'] : filemtime( $asset_file );
+		$version = $asset['version'] ?? ( null !== $asset ? filemtime( $asset_file ) : false );
 
 		wp_register_style(
 			"media-chrome-$block_name-$handle",
-			sprintf(
-				'%s/build/%s/style-%s.css',
-				untrailingslashit( S3S_MEDIA_CHROME_URL ),
-				$block_name,
-				$filename
-			),
-			[],
-			$version
-		);
-
-		wp_register_style(
-			"media-chrome-$block_name-$handle-rtl",
 			sprintf(
 				'%s/build/%s/style-%s.css',
 				untrailingslashit( S3S_MEDIA_CHROME_URL ),
