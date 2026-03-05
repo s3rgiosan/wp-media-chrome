@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file, per [the Keep a Changelog standard](http://keepachangelog.com/).
 
+## [1.3.0] - 2026-03-05
+
+### Changed
+
+- Refactor inspector controls into a shared component for video and audio.
+- Remove unused RTL stylesheet registration.
+- Add Requirements section and Hooks documentation to README.
+- Add `includes` directory to package.json distribution files.
+
+### Fixed
+
+- Fix conditional loading of provider element libraries in view scripts.
+- Fix audio embed block class sanitization to match video embed block.
+- Fix asset version fallback when asset file is missing.
+- Fix `$path` parameter docblock types.
+
 ## [1.2.0] - 2025-10-26
 
 ### Changed

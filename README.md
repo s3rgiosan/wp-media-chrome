@@ -1,11 +1,11 @@
-# Media Chrome for Media Blocks
+# Media Chrome for Embed Blocks
 
 > Enhance your video and audio blocks with custom web components from Media Chrome.
 
 ## Description
 
-Media Chrome for Media Blocks brings the power of [Media Chrome](https://www.media-chrome.org/) to WordPress media blocks.
-It enhances built-in video and audio blocks with custom web components, improving player controls, accessibility, and user experience.
+Media Chrome for Embed Blocks brings the power of [Media Chrome](https://www.media-chrome.org/) to WordPress embed blocks.
+It enhances built-in video and audio embed blocks with custom web components, improving player controls, accessibility, and user experience.
 No setup required — just activate the plugin to enhance media blocks with better controls, improved accessibility, and a modernized playback experience.
 
 ## Supported Media Blocks
@@ -17,6 +17,11 @@ No setup required — just activate the plugin to enhance media blocks with bett
 
 (*) **Spotify support is disabled by default** due to its limited customization options and UI.
 To enable it, see the [Spotify](#spotify) section below.
+
+## Requirements
+
+- WordPress 6.7 or later
+- PHP 7.4 or later
 
 ## Installation
 
@@ -63,7 +68,7 @@ To limit available options, add the following to your `theme.json` (example show
 
 ```json
 {
-  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+  "$schema": "https://schemas.wp.org/wp/6.7/theme.json",
   "version": 2,
   "settings": {
     "custom": {
@@ -106,7 +111,7 @@ Example video embed preset configuration for your `theme.json`:
 
 ```json
 {
-  "$schema": "https://schemas.wp.org/wp/6.5/theme.json",
+  "$schema": "https://schemas.wp.org/wp/6.7/theme.json",
   "version": 2,
   "settings": {
     "custom": {
@@ -288,6 +293,115 @@ media-play-button {
   --media-button-icon-transform: scale(1.2);
 }
 ```
+
+## Hooks
+
+### PHP Filters
+
+#### `media_chrome_providers_video`
+
+Filters the list of enabled video providers. Receives an array of provider class names.
+
+Default providers: `Vimeo`, `Wistia`, `YouTube`.
+
+```php
+add_filter( 'media_chrome_providers_video', function ( $providers ) {
+    return array_filter( $providers, fn( $p ) => $p !== \S3S\WP\MediaChrome\Provider\Wistia::class );
+});
+```
+
+#### `media_chrome_providers_audio`
+
+Filters the list of enabled audio providers. Empty by default.
+
+```php
+add_filter( 'media_chrome_providers_audio', function ( $providers ) {
+    $providers[] = \S3S\WP\MediaChrome\Provider\Spotify::class;
+    return $providers;
+});
+```
+
+#### `media_chrome_controller_attributes`
+
+Filters the `<media-controller>` element HTML attributes.
+
+**Parameters:**
+
+- `$attributes` *(array)* — HTML attributes.
+- `$block_attrs` *(array)* — Block attributes.
+- `$custom_settings` *(array)* — Merged custom settings.
+
+#### `media_chrome_poster_image_attributes`
+
+Filters the `<media-poster-image>` element HTML attributes.
+
+**Parameters:**
+
+- `$attributes` *(array)* — HTML attributes.
+- `$block_attrs` *(array)* — Block attributes.
+- `$custom_settings` *(array)* — Merged custom settings.
+
+#### `media_chrome_control_bar_components`
+
+Filters the components displayed in the media control bar.
+
+**Parameters:**
+
+- `$components` *(array)* — Array of component configurations keyed by tag name.
+
+#### `media_chrome_control_bar_{$component}_slots`
+
+Filters the slots for a specific control bar component. The `{$component}` placeholder uses underscores instead of hyphens (e.g., `media_chrome_control_bar_media_play_button_slots`).
+
+**Parameters:**
+
+- `$slots` *(array)* — Array of slot content keyed by slot name.
+- `$block_attrs` *(array)* — Block attributes.
+
+```php
+add_filter( 'media_chrome_control_bar_media_play_button_slots', function ( $slots, $block_attrs ) {
+    $slots['icon'] = '<svg>...</svg>';
+    return $slots;
+}, 10, 2 );
+```
+
+#### `media_chrome_allowed_tags`
+
+Filters the allowed HTML tags and attributes for control bar slot content (passed to `wp_kses`).
+
+**Parameters:**
+
+- `$allowed_tags` *(array)* — Array of allowed tags and their attributes.
+
+#### `media_chrome_{$slug}_provider_attributes`
+
+Filters the HTML attributes for a specific provider element. Replace `{$slug}` with the provider slug (e.g., `youtube`, `vimeo`, `wistia`, `spotify`).
+
+**Parameters:**
+
+- `$attributes` *(array)* — HTML attributes.
+- `$slug` *(string)* — Provider slug.
+
+```php
+add_filter( 'media_chrome_youtube_provider_attributes', function ( $attributes, $slug ) {
+    $attributes['crossorigin'] = 'anonymous';
+    return $attributes;
+}, 10, 2 );
+```
+
+### JavaScript Filters
+
+#### `mediaChrome.providers.video`
+
+Filters the list of supported video provider slugs in the block editor.
+
+Default: `['youtube', 'vimeo', 'wistia']`
+
+#### `mediaChrome.providers.audio`
+
+Filters the list of supported audio provider slugs in the block editor.
+
+Default: `[]`
 
 ## Changelog
 
