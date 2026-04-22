@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 - Defer plugin setup to the `plugins_loaded` hook.
 
+### Fixed
+
+- Fix Vimeo videos playing with sound when the `muted` block attribute is enabled. Propagate `muted` to the provider element and force `setMuted(true)` after the Vimeo player loads, working around the `vimeo-video-element` not forwarding the `muted` attribute to the player API.
+
 ## [1.3.0] - 2026-03-05
 
 ### Changed

@@ -12,14 +12,14 @@ class ComposerStaticInitad95e40ee0ed38d682e252d526ef2a83
     );
 
     public static $prefixLengthsPsr4 = array (
-        'S' => 
+        'S' =>
         array (
             'S3S\\WP\\MediaChrome\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'S3S\\WP\\MediaChrome\\' => 
+        'S3S\\WP\\MediaChrome\\' =>
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
