@@ -37,4 +37,13 @@ PucFactory::buildUpdateChecker(
 	'wp-media-chrome'
 );
 
-( Plugin::get_instance() )->setup();
+/**
+ * Load the plugin.
+ */
+add_action(
+	'plugins_loaded',
+	function () {
+		$plugin = Plugin::get_instance();
+		$plugin->setup();
+	}
+);
