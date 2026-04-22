@@ -11,6 +11,7 @@ class MediaController {
 	 */
 	public static $video_attributes = [
 		'muted',
+		'novolumepref',
 		'controls',
 		'preload',
 		'playsInline',
@@ -24,6 +25,7 @@ class MediaController {
 	 */
 	public static $audio_attributes = [
 		'muted',
+		'novolumepref',
 		'controls',
 		'preload',
 		'autohide',
@@ -47,6 +49,11 @@ class MediaController {
 
 		if ( empty( $provider ) ) {
 			return '';
+		}
+
+		if ( ! empty( $block_attrs['muted'] ) ) {
+			$provider->provider_attrs['muted'] = true;
+			$block_attrs['novolumepref']       = true;
 		}
 
 		$provider_markup = $provider->get_markup( $block_attrs['url'] );
