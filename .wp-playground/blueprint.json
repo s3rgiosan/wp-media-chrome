@@ -1,0 +1,28 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/?playground_demo=1",
+  "preferredVersions": { "php": "8.3", "wp": "latest" },
+  "login": true,
+  "steps": [
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/mu-plugins/playground-demo.php",
+      "data": "<?php\nadd_action('template_redirect', function () {\n    if (empty($_GET['playground_demo'])) {\n        return;\n    }\n    $post = get_page_by_path('playground-demo', OBJECT, 'post');\n    if ($post) {\n        wp_safe_redirect(get_permalink($post->ID));\n        exit;\n    }\n    wp_safe_redirect(admin_url('post-new.php'));\n    exit;\n});\n"
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "git:directory",
+        "url": "https://github.com/s3rgiosan/wp-media-chrome",
+        "ref": "main",
+        "refType": "branch",
+        "path": "/"
+      },
+      "options": { "activate": true }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php require '/wordpress/wp-load.php'; $content = '<!-- wp:paragraph --><p>This YouTube embed is enhanced by <strong>Media Chrome</strong>. Instead of the default YouTube player chrome, the plugin swaps in custom Media Chrome web components for the controls. Press play to see the modernized control bar, then use the gear icon in the block editor sidebar to toggle individual controls.</p><!-- /wp:paragraph -->'.\"\\n\\n\".'<!-- wp:embed {\"url\":\"https://www.youtube.com/watch?v=YE7VzlLtp-4\",\"type\":\"video\",\"providerNameSlug\":\"youtube\",\"responsive\":true,\"className\":\"wp-embed-aspect-16-9 wp-has-aspect-ratio\",\"controls\":true,\"playButton\":true,\"seekBackwardButton\":true,\"seekForwardButton\":true,\"muteButton\":true,\"volumeRange\":true,\"timeDisplay\":true,\"timeRange\":true,\"playbackRateButton\":true,\"fullscreenButton\":true,\"autohide\":2} -->'.\"\\n\".'<figure class=\"wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio\"><div class=\"wp-block-embed__wrapper\">'.\"\\n\".'https://www.youtube.com/watch?v=YE7VzlLtp-4'.\"\\n\".'</div></figure>'.\"\\n\".'<!-- /wp:embed -->'; wp_insert_post(['post_title'=>'Media Chrome for Embed Blocks Demo','post_name'=>'playground-demo','post_status'=>'publish','post_type'=>'post','post_content'=>$content]);"
+    }
+  ]
+}

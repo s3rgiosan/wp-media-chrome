@@ -2,6 +2,8 @@
 
 > Enhance your video and audio blocks with custom web components from Media Chrome.
 
+[![Try in WordPress Playground](https://img.shields.io/badge/Try%20in-WordPress%20Playground-3858E9?logo=wordpress&logoColor=white)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/s3rgiosan/wp-media-chrome/main/.wp-playground/blueprint.json)
+
 ## Description
 
 Media Chrome for Embed Blocks brings the power of [Media Chrome](https://www.media-chrome.org/) to WordPress embed blocks.

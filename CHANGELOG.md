@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased]
 
+### Added
+
+- "Try in WordPress Playground" README button backed by `.wp-playground/blueprint.json`, seeded with a published demo post containing a YouTube embed block enhanced by Media Chrome.
+
 ## [1.4.1] - 2026-05-08
 
 - Added automated GitHub Release packaging via reusable release workflow; installation now points to the latest release ZIP.
